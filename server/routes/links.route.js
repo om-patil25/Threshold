@@ -2,13 +2,15 @@ import e from "express";
 import { Router } from "express";
 import db from "../db/index.js";
 import { linksTable } from "../models/links.model.js";
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { requireAuthentication } from "../middlewares/auth.middleware.js";
 import {
   linksPatchRequestBodySchema,
   linksPostRequestBodySchema,
 } from "../validations/requests.validation.js";
 import { validateData } from "../middlewares/validation.middleware.js";
+import "dotenv/config";
+import { analytics_eventTable } from "../models/analytics_event.model.js";
 
 const router = e.Router();
 
@@ -92,6 +94,34 @@ router.delete("/links/:id", requireAuthentication, async (req, res) => {
     res.status(200).json({ success: "link deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: "something went wrong" });
+  }
+});
+
+router.get("/click/:id", async (req, res) => {
+  try {
+    const link_id = req.params.id;
+
+    const [link] = await db
+      .update(linksTable)
+      .set({ click_count: sql`${linksTable.click_count} + 1` })
+      .where(eq(linksTable.id, link_id))
+      .returning({ url: linksTable.url, user_id: linksTable.user_id });
+
+    if (!link) {
+      return res.redirect(process.env.FRONTEND_URL || "/");
+    }
+
+    db.insert(analytics_eventTable)
+      .values({
+        user_id: link.user_id,
+        link_id: link_id,
+        event_type: "click",
+      })
+      .catch((err) => console.log("failed to log click" + err));
+
+    return res.redirect(link.url);
+  } catch (err) {
+    return res.redirect(process.env.FRONTEND_URL || "/");
   }
 });
 

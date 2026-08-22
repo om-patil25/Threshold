@@ -6,10 +6,11 @@ const filefilter = (req, file, cb) => {
     "image/jpg",
     "image/jpeg",
     "application/pdf",
+    "image/webp",
   ];
   if (allowedFileTypes.includes(file.mimetype)) return cb(null, true);
 
-  cb(new Error("file type should be one of .png/.jpg/.pdf"), false);
+  cb(new FileTypeError("file type should be one of .png/.jpg/.pdf"), false);
 };
 
 const storage = multer.memoryStorage();
@@ -18,5 +19,12 @@ const upload = multer({
   fileFilter: filefilter,
   limits: { fileSize: 2 * 1024 * 1024 },
 });
+
+export class FileTypeError extends Error {
+  constructor(message) {
+    super(message); // sends this custom file message to Error's constructer to set as message
+    this.name = "FileTypeError";
+  }
+}
 
 export default upload;

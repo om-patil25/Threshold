@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, text, integer } from "drizzle-orm/pg-core";
 import { usersTable } from "./user.model.js";
 
 export const linksTable = pgTable("links", {
@@ -8,4 +8,5 @@ export const linksTable = pgTable("links", {
     .notNull(),
   label: varchar({ length: 145 }).notNull(),
   url: text("url").notNull(),
+  click_count: integer().default(0),
 });

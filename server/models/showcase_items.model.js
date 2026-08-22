@@ -8,12 +8,12 @@ import {
 } from "drizzle-orm/pg-core";
 import { usersTable } from "./user.model.js";
 
-// const filetypeEnum = pgEnum("filetype", [
-//   "certification",
-//   "project",
-//   "achievement",
-//   "document",
-// ]);
+export const filetypeEnum = pgEnum("fileType", [
+  "certification",
+  "project",
+  "achievement",
+  "document",
+]);
 
 export const showcaseItems = pgTable("showcase_items", {
   id: uuid().primaryKey().defaultRandom(),
@@ -23,7 +23,7 @@ export const showcaseItems = pgTable("showcase_items", {
   description: text(),
   url: text("url").notNull(),
   mimetype: text().notNull(),
-  filetype: text().notNull(),
+  filetype: filetypeEnum("filetype").default("document").notNull(),
   size: integer("size").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),

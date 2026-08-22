@@ -1,23 +1,50 @@
-import supabase from "../config/supabase.js";
+import supabase, { storageBucket } from "../config/supabase.js";
+import sharp from "sharp";
+import path from "node:path";
 
-export const uploadFile = (buffer, bucketName, fileName, contentType) => {
-  const { data, error } = supabase.storage
+export const uploadFile = async (buffer, bucketName, fileName, contentType) => {
+  let compressedFilebuffer = buffer;
+  let uploadContentType = contentType;
+  let uploadFileName = fileName;
+
+  if (contentType != "application/pdf") {
+    compressedFilebuffer = await sharp(buffer)
+      .resize({ width: 800, withoutEnlargement: true })
+      .webp({ quality: 80 })
+      .toBuffer();
+
+    uploadContentType = "image/webp";
+    uploadFileName = fileName + ".webp";
+  } else {
+    uploadFileName = fileName + ".pdf";
+  }
+
+  const { data, error } = await supabase.storage
     .from(bucketName)
-    .upload(fileName, buffer, { contentType });
+    .upload(uploadFileName, compressedFilebuffer, {
+      contentType: uploadContentType,
+      upsert: false,
+    });
 
   if (error) {
     throw { error: "file upload error!" + error };
   }
 
-  const { data: url } = supabase.storage
+  const { data: url } = await supabase.storage
     .from(bucketName)
-    .getPublicUrl(fileName);
+    .getPublicUrl(uploadFileName);
 
-  return url.publicUrl;
+  return {
+    url: url.publicUrl,
+    newmimetype: uploadContentType,
+    newfileName: uploadFileName,
+  };
 };
 
-export const removeFile = (bucketName, fileName) => {
-  const { data, error } = supabase.storage.from(bucketName).remove([fileName]);
+export const removeFile = async (bucketName, fileName) => {
+  const { data, error } = await supabase.storage
+    .from(bucketName)
+    .remove([fileName]);
 
   if (error) {
     throw { error: "file deletion error!" + error };
@@ -27,7 +54,13 @@ export const removeFile = (bucketName, fileName) => {
 };
 
 export const generateUniqueFilename = (userid, OriginalName) => {
-  const processedName = OriginalName.replaceAll(" ", "_").toLowerCase();
+  const name = path.parse(OriginalName).name;
+  const processedName = name.replaceAll(" ", "_").toLowerCase();
   const uniqueFileName = userid + "/" + Date.now() + "-" + processedName;
   return uniqueFileName;
+};
+
+export const getFileNameFromUrlFormulae = (url) => {
+  const fileName = url.split(`${storageBucket}/`).at(-1);
+  return fileName;
 };

@@ -1,5 +1,4 @@
 import e from "express";
-import { Router } from "express";
 import upload from "../middlewares/fileUpload.middleware.js";
 import { requireAuthentication } from "../middlewares/auth.middleware.js";
 import db from "../db/index.js";
@@ -15,9 +14,9 @@ import {
   showcaseitemPatchRequestSchema,
   showcaseitemPostRequestSchema,
 } from "../validations/requests.validation.js";
+import { storageBucket } from "../config/supabase.js";
 
 const router = e.Router();
-const storageBucket = "showcase_items";
 
 router.post(
   "/showcase-items",
@@ -26,34 +25,26 @@ router.post(
   validateData(showcaseitemPostRequestSchema),
   async (req, res) => {
     try {
-      const allowedFiletype = [
-        "certification",
-        "project",
-        "achievement",
-        "document",
-      ];
       if (!req.file)
         return res.status(400).json({ error: "you need to upload file!" });
-
-      if (!allowedFiletype.includes(req.body.filetype))
-        return res.status(400).json({
-          error:
-            "only choose between certification, prject, achievement, document",
-        });
 
       const user_id = req.user.user_id;
       const { originalname, mimetype, size, buffer } = req.file;
       const { filetype, file_title, description } = req.body;
       const fileName = generateUniqueFilename(user_id, originalname);
-      const url = await uploadFile(buffer, storageBucket, fileName, mimetype);
-
+      const { url, newmimetype, newfileName } = await uploadFile(
+        buffer,
+        storageBucket,
+        fileName,
+        mimetype,
+      );
       const [file] = await db
         .insert(showcaseItems)
         .values({
           user_id: user_id,
-          fileName,
+          fileName: newfileName,
           url,
-          mimetype,
+          mimetype: newmimetype,
           filetype,
           size,
           file_title,
@@ -111,8 +102,19 @@ router.patch(
       if (req.file) {
         const { originalname, mimetype, size, buffer } = req.file;
         const fileName = generateUniqueFilename(user_id, originalname);
-        const url = await uploadFile(buffer, storageBucket, fileName, mimetype);
-        updateData = { ...updateData, mimetype, size, fileName, url };
+        const { url, newmimetype, newfileName } = await uploadFile(
+          buffer,
+          storageBucket,
+          fileName,
+          mimetype,
+        );
+        updateData = {
+          ...updateData,
+          mimetype: newmimetype,
+          size,
+          fileName: newfileName,
+          url,
+        };
       }
       const [updatedFile] = await db
         .update(showcaseItems)
@@ -158,7 +160,7 @@ router.delete(
       if (!file)
         return res.status(404).json({ error: "file does not exists!" });
 
-      const removed = await removeFile(storageBucket, file.fileName);
+      await removeFile(storageBucket, file.fileName);
 
       res.status(200).json({ success: removed, file: file });
     } catch (err) {

@@ -7,3 +7,5 @@ const supabase = createClient(
 );
 
 export default supabase;
+
+export const storageBucket = "showcase_items";

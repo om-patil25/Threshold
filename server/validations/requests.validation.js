@@ -33,12 +33,14 @@ export const linksPatchRequestBodySchema = z.object({
 
 export const showcaseitemPostRequestSchema = z.object({
   file_title: z.string().nonempty(),
-  filetype: z.string(),
+  filetype: z.enum(["certification", "project", "achievement", "document"]),
   description: z.string().optional(),
 });
 
 export const showcaseitemPatchRequestSchema = z.object({
   file_title: z.string().nonempty().optional(),
-  filetype: z.string().optional(),
+  filetype: z
+    .enum("certification", "project", "achievement", "document")
+    .optional(),
   description: z.string().optional(),
 });

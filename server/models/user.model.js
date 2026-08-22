@@ -1,11 +1,4 @@
-import {
-  integer,
-  pgTable,
-  varchar,
-  uuid,
-  timestamp,
-  text,
-} from "drizzle-orm/pg-core";
+import { pgTable, varchar, uuid, timestamp, text } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
   id: uuid().primaryKey().defaultRandom(),
@@ -17,7 +10,5 @@ export const usersTable = pgTable("users", {
   worktitle: text(),
   profileimage: text(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
 });
-
-//work under progress
-//main tables implemented
