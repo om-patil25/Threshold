@@ -25,6 +25,7 @@ export const showcaseItems = pgTable("showcase_items", {
   mimetype: text().notNull(),
   filetype: filetypeEnum("filetype").default("document").notNull(),
   size: integer("size").notNull(),
+  link_url: text(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
 });

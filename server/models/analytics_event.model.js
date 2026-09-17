@@ -9,7 +9,7 @@ export const analytics_eventTable = pgTable("analytics_events", {
   user_id: uuid()
     .references(() => usersTable.id)
     .notNull(),
-  link_id: uuid().references(() => linksTable.id),
+  link_id: uuid().references(() => linksTable.id, { onDelete: "set null" }),
   event_type: eventTypeEnum("event_type").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });

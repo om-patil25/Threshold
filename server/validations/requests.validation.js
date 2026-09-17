@@ -19,6 +19,7 @@ export const updateRequestBodySchema = z.object({
   name: z.string().optional(),
   bio: z.string().optional(),
   worktitle: z.string().optional(),
+  theme: z.string().optional(),
 });
 
 export const linksPostRequestBodySchema = z.object({
@@ -40,7 +41,7 @@ export const showcaseitemPostRequestSchema = z.object({
 export const showcaseitemPatchRequestSchema = z.object({
   file_title: z.string().nonempty().optional(),
   filetype: z
-    .enum("certification", "project", "achievement", "document")
+    .enum(["certification", "project", "achievement", "document"])
     .optional(),
   description: z.string().optional(),
 });

@@ -33,9 +33,9 @@ router.post(
 
       res
         .status(201)
-        .json({ success: "link created successfully", link: link });
+        .json({ message: "link created successfully", link: link });
     } catch (err) {
-      res.status(500).json({ error: "something went wrong" });
+      res.status(500).json({ message: "something went wrong" });
     }
   },
 );
@@ -50,9 +50,9 @@ router.get("/links", requireAuthentication, async (req, res) => {
 
     res
       .status(200)
-      .json({ success: "links fetched successfully", links: links });
+      .json({ message: "links fetched successfully", links: links });
   } catch (err) {
-    res.status(500).json({ error: "something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 });
 
@@ -75,9 +75,9 @@ router.patch(
         .returning();
       res
         .status(200)
-        .json({ success: "link updated successfully", link: link });
+        .json({ message: "link updated successfully", link: link });
     } catch (err) {
-      res.status(500).json({ error: "something went wrong" });
+      res.status(500).json({ message: "something went wrong" });
     }
   },
 );
@@ -91,9 +91,9 @@ router.delete("/links/:id", requireAuthentication, async (req, res) => {
       .delete(linksTable)
       .where(and(eq(linksTable.id, link_id), eq(linksTable.user_id, user_id)));
 
-    res.status(200).json({ success: "link deleted successfully" });
+    res.status(200).json({ message: "link deleted successfully" });
   } catch (err) {
-    res.status(500).json({ error: "something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 });
 
@@ -119,9 +119,9 @@ router.get("/click/:id", async (req, res) => {
       })
       .catch((err) => console.log("failed to log click" + err));
 
-    return res.redirect(link.url);
+    res.status(200).json({ message: "click registered!" });
   } catch (err) {
-    return res.redirect(process.env.FRONTEND_URL || "/");
+    res.status(500).json({ message: "something went wrong" });
   }
 });
 

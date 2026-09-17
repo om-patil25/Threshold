@@ -8,4 +8,4 @@ const supabase = createClient(
 
 export default supabase;
 
-export const storageBucket = "showcase_items";
+export const storageBucket = "threshold_public_storage";

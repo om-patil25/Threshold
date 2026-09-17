@@ -1,4 +1,11 @@
-import { pgTable, varchar, uuid, timestamp, text } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  varchar,
+  uuid,
+  timestamp,
+  text,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
   id: uuid().primaryKey().defaultRandom(),
@@ -9,6 +16,8 @@ export const usersTable = pgTable("users", {
   bio: text(),
   worktitle: text(),
   profileimage: text(),
+  theme: text(),
+  onboardingComplete: boolean().default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
 });

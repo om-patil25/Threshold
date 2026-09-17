@@ -9,7 +9,7 @@ services:
     ports:
       - 5432:5432 #this is the port on which postgres runs by default
     volumes:
-      - MylinkData:/var/lib/postgresql #this is location of volume in container for postgres version 18
+      - ThresholdData:/var/lib/postgresql #this is location of volume in container for postgres version 18
 
 volumes:
-  MylinkData:
+  ThresholdData:

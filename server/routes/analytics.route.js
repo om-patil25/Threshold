@@ -11,8 +11,8 @@ const getAnalyticsByDay = async (user_id, event_type, daysAgo) => {
 
   return await db
     .select({
-      day: sql`DATE_TRUNC('day', ${analytics_eventTable.createdAt})`,
-      total: count(),
+      date: sql`DATE_TRUNC('day', ${analytics_eventTable.createdAt})`,
+      count: count(),
     })
     .from(analytics_eventTable)
     .where(
@@ -48,31 +48,36 @@ router.get("/analytics", requireAuthentication, async (req, res) => {
     }
 
     res.status(200).json({
-      success: "analytics summary fetched successfully",
+      message: "analytics summary fetched successfully",
       stats: { totalClicks: totalClicks, totalViews: totalViews },
     });
   } catch (err) {
-    res.status(500).json({ error: "something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 });
 
-router.get("/analytics/timeseries", requireAuthentication, async (req, res) => {
-  try {
-    const user_id = req.user.user_id;
+router.get(
+  "/analytics/timeseries/:days",
+  requireAuthentication,
+  async (req, res) => {
+    try {
+      const user_id = req.user.user_id;
+      const days = req.params.days;
 
-    const [clicksByDay, profileViewsByDay] = await Promise.all([
-      getAnalyticsByDay(user_id, "click", 30),
-      getAnalyticsByDay(user_id, "profile_view", 30),
-    ]);
+      const [clicksByDay, profileViewsByDay] = await Promise.all([
+        getAnalyticsByDay(user_id, "click", days),
+        getAnalyticsByDay(user_id, "profile_view", days),
+      ]);
 
-    res.status(200).json({
-      success: "analytics summary fetched successfully",
-      clicksByDay: clicksByDay,
-      profileViewsByDay: profileViewsByDay,
-    });
-  } catch (err) {
-    res.status(500).json({ error: "something went wrong" });
-  }
-});
+      res.status(200).json({
+        message: "analytics summary fetched successfully",
+        clicksByDay: clicksByDay,
+        profileViewsByDay: profileViewsByDay,
+      });
+    } catch (err) {
+      res.status(500).json({ message: "something went wrong" });
+    }
+  },
+);
 
 export default router;

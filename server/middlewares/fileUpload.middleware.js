@@ -17,7 +17,7 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage,
   fileFilter: filefilter,
-  limits: { fileSize: 2 * 1024 * 1024 },
+  limits: { fileSize: 3 * 1024 * 1024 },
 });
 
 export class FileTypeError extends Error {

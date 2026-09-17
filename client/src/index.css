@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-primary: #fafaff;
+  --color-text-primary: #16151f;
+  --color-brand-primary: #16151f;
+  --color-brand-accent: #7c3aed;
+  --color-brand-secondary: #34d399;
+}
+
+/* Light Themes */
+[data-theme="ink-and-ochre"] {
+  --color-bg-primary: #faf7f2;
+  --color-text-primary: #1c1b19;
+  --color-brand-primary: #2b2620;
+  --color-brand-accent: #c9622a;
+}
+
+[data-theme="paper-and-moss"] {
+  --color-bg-primary: #f5f3ed;
+  --color-text-primary: #22261f;
+  --color-brand-primary: #3f4a38;
+  --color-brand-accent: #d98e5d;
+}
+
+[data-theme="bone-and-violet"] {
+  --color-bg-primary: #fafafa;
+  --color-text-primary: #171417;
+  --color-brand-primary: #6c4ab6;
+  --color-brand-accent: #f2c94c;
+}
+
+[data-theme="classic-minimal"] {
+  --color-bg-primary: #ffffff;
+  --color-text-primary: #525252;
+  --color-brand-primary: #171717;
+  --color-brand-accent: #000000;
+}
+
+[data-theme="forest-retreat"] {
+  --color-bg-primary: #f0fdf4;
+  --color-text-primary: #14532d;
+  --color-brand-primary: #064e3b;
+  --color-brand-accent: #22c55e;
+}
+
+[data-theme="ocean-breeze"] {
+  --color-bg-primary: #f0f9ff;
+  --color-text-primary: #1e3a8a;
+  --color-brand-primary: #172554;
+  --color-brand-accent: #f43f5e;
+}
+
+/* Dark Themes */
+[data-theme="midnight-slate"] {
+  --color-bg-primary: #0f111a;
+  --color-text-primary: #94a3b8;
+  --color-brand-primary: #f8fafc;
+  --color-brand-accent: #5eead4;
+}
+
+[data-theme="hacker-terminal"] {
+  --color-bg-primary: #0a0a0a;
+  --color-text-primary: #a3a3a3;
+  --color-brand-primary: #22c55e;
+  --color-brand-accent: #4ade80;
+}
+
+[data-theme="sunset-noir"] {
+  --color-bg-primary: #121212;
+  --color-text-primary: #a1a1aa;
+  --color-brand-primary: #fafafa;
+  --color-brand-accent: #f43f5e;
+}
+
+[data-theme="abyss-blue"] {
+  --color-bg-primary: #020617;
+  --color-text-primary: #94a3b8;
+  --color-brand-primary: #f1f5f9;
+  --color-brand-accent: #fbbf24;
+}
+
+[data-theme="neon-cyberpunk"] {
+  --color-bg-primary: #09090b;
+  --color-text-primary: #d8b4e2;
+  --color-brand-primary: #ff2a6d;
+  --color-brand-accent: #05d9e8;
+}
+
+[data-theme="lavender-dusk"] {
+  --color-bg-primary: #1e1b4b;
+  --color-text-primary: #c7d2fe;
+  --color-brand-primary: #e0e7ff;
+  --color-brand-accent: #fbbf24;
+}
+
+[data-theme="minty-fresh"] {
+  --color-bg-primary: #ecfdf5;
+  --color-text-primary: #064e3b;
+  --color-brand-primary: #059669;
+  --color-brand-accent: #10b981;
+}
+
+[data-theme="cherry-blossom"] {
+  --color-bg-primary: #fdf2f8;
+  --color-text-primary: #831843;
+  --color-brand-primary: #db2777;
+  --color-brand-accent: #f472b6;
+}
+
+[data-theme="electric-blue"] {
+  --color-bg-primary: #030712;
+  --color-text-primary: #e0f2fe;
+  --color-brand-primary: #38bdf8;
+  --color-brand-accent: #0284c7;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+/* Custom Scrollbars */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(22, 21, 31, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(22, 21, 31, 0.3);
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(22, 21, 31, 0.2) transparent;
+}
+
+/* Hide Scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

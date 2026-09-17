@@ -24,6 +24,7 @@ import { isUsernameAvailable } from "../utils/userhandler.js";
 import { storageBucket } from "../config/supabase.js";
 import { updatesTable } from "../models/updates.model.js";
 import { analytics_eventTable } from "../models/analytics_event.model.js";
+import { updateAfterFilteredExpired } from "../utils/updateshandler.js";
 
 const router = e.Router();
 
@@ -32,7 +33,7 @@ router.get("/auth/check-username/:username", async (req, res) => {
   try {
     res.status(200).send(await isUsernameAvailable(req.params.username));
   } catch (err) {
-    res.status(500).json({ error: "something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 });
 
@@ -57,7 +58,7 @@ router.post(
       if (existingUser) {
         return res
           .status(400)
-          .json({ error: "user with this email already exists!" });
+          .json({ message: "user with this email already exists!" });
       } else {
         const hash = await bcrypt.hash(password, 10);
         const [user] = await db
@@ -76,10 +77,10 @@ router.post(
         });
         storeUserToken(res, token);
 
-        res.status(201).json({ success: "user created!", user_id: user.id });
+        res.status(201).json({ message: "user created!", user_id: user.id });
       }
     } catch (err) {
-      res.status(500).json({ error: "something went wrong" });
+      res.status(500).json({ message: "something went wrong" });
     }
   },
 );
@@ -97,7 +98,9 @@ router.post(
         .where(eq(usersTable.email, email));
 
       if (!existingUser)
-        return res.status(400).json({ error: "New to Mylink? Signup to use" });
+        return res
+          .status(400)
+          .json({ message: "New to Mylink? Signup to use" });
 
       const passwordmatchResult = await bcrypt.compare(
         password,
@@ -105,7 +108,7 @@ router.post(
       );
 
       if (!passwordmatchResult) {
-        return res.status(400).json({ error: "password incorrect!" });
+        return res.status(400).json({ message: "password incorrect!" });
       }
       const token = createUserToken({
         user_id: existingUser.id,
@@ -113,9 +116,9 @@ router.post(
       });
       storeUserToken(res, token);
 
-      res.json({ success: "logged in successfuly" });
+      res.json({ message: "logged in messagefuly" });
     } catch (err) {
-      res.status(500).json({ error: "something went wrong" });
+      res.status(500).json({ message: "something went wrong" });
     }
   },
 );
@@ -128,9 +131,9 @@ router.post("/auth/logout", requireAuthentication, async (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
 
-    res.status(200).json({ success: "logged out successfully!" });
+    res.status(200).json({ message: "logged out successfully!" });
   } catch (err) {
-    res.status(500).json({ error: "something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 });
 
@@ -147,6 +150,8 @@ router.get("/users/me", requireAuthentication, async (req, res) => {
         profileimage: usersTable.profileimage,
         bio: usersTable.bio,
         worktitle: usersTable.worktitle,
+        theme: usersTable.theme,
+        onboardingComplete: usersTable.onboardingComplete,
         createdat: usersTable.createdAt,
         updateat: usersTable.updatedAt,
       })
@@ -154,7 +159,7 @@ router.get("/users/me", requireAuthentication, async (req, res) => {
       .where(eq(usersTable.id, user_id));
     res.status(200).json({ user: userAdmin });
   } catch (err) {
-    res.status(500).json({ error: "something went wrong!" });
+    res.status(500).json({ message: "something went wrong!" });
   }
 });
 
@@ -173,7 +178,7 @@ router.patch(
         .from(usersTable)
         .where(eq(usersTable.id, user_id));
 
-      const { name, bio, worktitle } = req.body;
+      const { name, bio, worktitle, theme } = req.body;
       let profileimage = olduserProfile.profileimage;
       if (req.file) {
         const { buffer, mimetype, originalname } = req.file;
@@ -191,7 +196,7 @@ router.patch(
 
       const [updateUser] = await db
         .update(usersTable)
-        .set({ name, bio, worktitle, profileimage })
+        .set({ name, bio, worktitle, profileimage, theme })
         .where(eq(usersTable.id, user_id))
         .returning({
           id: usersTable.id,
@@ -214,9 +219,9 @@ router.patch(
 
       res
         .status(200)
-        .json({ success: "info updated", newUserData: updateUser });
+        .json({ message: "info updated", newUserData: updateUser });
     } catch (err) {
-      res.status(500).json({ error: "something went wrong" });
+      res.status(500).json({ message: "something went wrong" });
     }
   },
 );
@@ -233,6 +238,7 @@ router.get("/users/:username", async (req, res) => {
         worktitle: usersTable.worktitle,
         bio: usersTable.bio,
         profileimage: usersTable.profileimage,
+        theme: usersTable.theme,
         createdAt: usersTable.createdAt,
       })
       .from(usersTable)
@@ -241,12 +247,12 @@ router.get("/users/:username", async (req, res) => {
     if (!user)
       return res
         .status(404)
-        .json({ error: "user with this username not found!" });
+        .json({ message: "user with this username not found!" });
 
     const [links, showcase_items, updates] = await Promise.all([
       db.select().from(linksTable).where(eq(linksTable.user_id, user.id)),
       db.select().from(showcaseItems).where(eq(showcaseItems.user_id, user.id)),
-      db.select().from(updatesTable).where(eq(updatesTable.user_id, user.id)),
+      updateAfterFilteredExpired(15, user.id),
     ]);
 
     db.insert(analytics_eventTable)
@@ -258,14 +264,14 @@ router.get("/users/:username", async (req, res) => {
 
     const { id, ...publicUser } = user;
     res.status(200).json({
-      success: "data fetched successfully!",
+      message: "data fetched successfully!",
       publicUser,
       links,
       showcase_items,
       updates,
     });
   } catch (err) {
-    res.status(500).json({ error: "something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 });
 

@@ -11,13 +11,14 @@ import {
   uploadFile,
 } from "../utils/filehandler.js";
 import { storageBucket } from "../config/supabase.js";
+import { updateAfterFilteredExpired } from "../utils/updateshandler.js";
 
 const router = e.Router();
 
 router.post(
   "/updates",
   requireAuthentication,
-  upload.single("image"),
+  upload.single("updateimage"),
   async (req, res) => {
     try {
       const user_id = req.user.user_id;
@@ -49,9 +50,9 @@ router.post(
 
       res
         .status(201)
-        .json({ success: "update created successfully", update: update });
+        .json({ message: "update created successfully", update: update });
     } catch (err) {
-      res.status(500).json({ error: "something went wrong" });
+      res.status(500).json({ message: "something went wrong" });
     }
   },
 );
@@ -59,24 +60,20 @@ router.post(
 router.get("/updates", requireAuthentication, async (req, res) => {
   try {
     const user_id = req.user.user_id;
-
-    const updates = await db
-      .select()
-      .from(updatesTable)
-      .where(eq(updatesTable.user_id, user_id));
+    const updates = await updateAfterFilteredExpired(15, user_id);
 
     res
       .status(200)
-      .json({ success: "updates fetched successfully!", updates: updates });
+      .json({ message: "updates fetched successfully!", updates: updates });
   } catch (err) {
-    res.status(500).json({ error: "something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 });
 
 router.patch(
   "/updates/:id",
   requireAuthentication,
-  upload.single("image"),
+  upload.single("updateimage"),
   async (req, res) => {
     try {
       const user_id = req.user.user_id;
@@ -92,7 +89,8 @@ router.patch(
           ),
         );
 
-      if (!update) return res.status(404).json({ error: "update not found!" });
+      if (!update)
+        return res.status(404).json({ message: "update not found!" });
 
       const content = req.body.content;
       let img_url = update.img_url;
@@ -126,11 +124,11 @@ router.patch(
         await removeFile(storageBucket, oldUpdateImage);
       }
       res.status(200).json({
-        success: "update patched successfully!",
+        message: "update patched successfully!",
         patchedUpdate: patchedUpdate,
       });
     } catch (err) {
-      res.status(500).json({ error: "something went wrong " });
+      res.status(500).json({ message: "something went wrong " });
     }
   },
 );
@@ -148,16 +146,16 @@ router.delete("/updates/:id", requireAuthentication, async (req, res) => {
       .returning({ img_url: updatesTable.img_url });
 
     if (!updateImage)
-      return res.status(404).json({ error: "update does not exists!" });
+      return res.status(404).json({ message: "update does not exists!" });
 
     if (updateImage.img_url) {
       const UpdateImage = getFileNameFromUrlFormulae(updateImage.img_url);
       await removeFile(storageBucket, UpdateImage);
     }
 
-    res.status(200).json({ success: "update deleted successfully" });
+    res.status(200).json({ message: "update deleted successfully" });
   } catch (err) {
-    res.status(500).json({ error: "something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 });
 

@@ -21,12 +21,12 @@ const router = e.Router();
 router.post(
   "/showcase-items",
   requireAuthentication,
-  upload.single("image"),
+  upload.single("file"),
   validateData(showcaseitemPostRequestSchema),
   async (req, res) => {
     try {
       if (!req.file)
-        return res.status(400).json({ error: "you need to upload file!" });
+        return res.status(400).json({ message: "you need to upload file!" });
 
       const user_id = req.user.user_id;
       const { originalname, mimetype, size, buffer } = req.file;
@@ -53,9 +53,9 @@ router.post(
         .returning();
       res
         .status(201)
-        .json({ success: "File uploaded successfully!", file: file });
+        .json({ message: "File uploaded successfully!", file: file });
     } catch (err) {
-      res.status(500).json({ error: "something went wrong " });
+      res.status(500).json({ message: "something went wrong " });
     }
   },
 );
@@ -70,16 +70,16 @@ router.get("/showcase-items", requireAuthentication, async (req, res) => {
 
     res
       .status(200)
-      .json({ success: "files fetched successfully", files: files });
+      .json({ message: "files fetched successfully", files: files });
   } catch (err) {
-    res.status(500).json({ error: "something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 });
 
 router.patch(
   "/showcase-items/:file_id",
   requireAuthentication,
-  upload.single("image"),
+  upload.single("file"),
   validateData(showcaseitemPatchRequestSchema),
   async (req, res) => {
     try {
@@ -94,7 +94,7 @@ router.patch(
             eq(showcaseItems.id, file_id),
           ),
         );
-      if (!file) return res.status(404).json({ error: "file not found!" });
+      if (!file) return res.status(404).json({ message: "file not found!" });
 
       const { file_title, filetype, description } = req.body;
       let updateData = { file_title, filetype, description };
@@ -131,11 +131,11 @@ router.patch(
         await removeFile(storageBucket, file.fileName);
       }
       res.status(200).json({
-        success: "File updated successfully!",
+        message: "File updated successfully!",
         updatedFile: updatedFile,
       });
     } catch (err) {
-      res.status(500).json({ error: "something went wrong " });
+      res.status(500).json({ message: "something went wrong " });
     }
   },
 );
@@ -158,13 +158,14 @@ router.delete(
         .returning({ fileName: showcaseItems.fileName });
 
       if (!file)
-        return res.status(404).json({ error: "file does not exists!" });
+        return res.status(404).json({ message: "file does not exists!" });
 
       await removeFile(storageBucket, file.fileName);
 
-      res.status(200).json({ success: removed, file: file });
+      res.status(200).json({ message: "removed", file: file });
     } catch (err) {
-      res.status(500).json({ error: "something went wrong" });
+      res.status(500).json({ message: "something went wrong" });
+      console.log(err);
     }
   },
 );
