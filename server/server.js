@@ -19,6 +19,7 @@ app.use(
     credentials: true, //for later use for frontend to connect with backend without browser blockage
   }),
 );
+app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
 app.use(authenticationMiddleWare);
 app.use("/api", users);
 app.use("/api", links);
