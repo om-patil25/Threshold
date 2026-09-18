@@ -9,7 +9,7 @@ import {
   File,
 } from "lucide-react";
 import { PreviewModal } from "../shared/PreviewModal";
-import { toast } from "../../utils/toast";
+import { handleProfileShare } from "../../utils/share";
 
 export const PublicProfileDesktop = ({
   user,
@@ -47,6 +47,9 @@ export const PublicProfileDesktop = ({
                 src={user.profileimage}
                 alt={user.name}
                 className="w-20 aspect-square rounded-full object-cover border-2 border-brand-primary/10"
+                loading="lazy"
+                width={80}
+                height={80}
               />
             ) : (
               <div className="w-16 h-16 rounded-full bg-brand-primary/20 flex items-center justify-center text-xl font-bold text-brand-primary">
@@ -70,10 +73,7 @@ export const PublicProfileDesktop = ({
           <div className="flex items-center gap-4">
             <button
               className="px-4 py-2 text-brand-primary bg-brand-primary/5 hover:bg-brand-primary/10 rounded-full transition-colors flex items-center gap-2 font-bold"
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-                toast("Profile link copied to clipboard!");
-              }}
+              onClick={() => handleProfileShare(user)}
               title="Share Profile"
             >
               <Share2 size={18} />
@@ -108,9 +108,9 @@ export const PublicProfileDesktop = ({
               ref={updatesRef}
               className="flex gap-6 overflow-x-auto hide-scrollbar snap-x scroll-smooth pb-4 pt-4 -mt-4"
             >
-              {updates.map((update) => (
+              {updates.map((update, idx) => (
                 <Card
-                  key={update.id}
+                  key={update._id || update.id || idx}
                   className="flex-1 min-w-[320px] max-w-[350px] shrink-0 snap-start h-48 flex flex-col bg-gradient-to-br from-brand-primary/5 to-bg-primary rounded-3xl border-[3px] border-brand-accent/20 shadow-xl cursor-pointer hover:border-brand-accent hover:-translate-y-1 transition-all duration-300 overflow-hidden"
                   onClick={() =>
                     setPreviewItem({
@@ -127,6 +127,9 @@ export const PublicProfileDesktop = ({
                         src={update.img_url}
                         alt=""
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        width={320}
+                        height={96}
                       />
                     </div>
                   )}
@@ -170,9 +173,9 @@ export const PublicProfileDesktop = ({
               ref={showcaseRef}
               className="flex gap-6 overflow-x-auto hide-scrollbar snap-x scroll-smooth pb-6 pt-4 -mt-4"
             >
-              {showcaseItems.map((item) => (
+              {showcaseItems.map((item, idx) => (
                 <Card
-                  key={item.id}
+                  key={item._id || item.id || idx}
                   className="flex-1 min-w-[420px] max-w-[500px] shrink-0 snap-start flex flex-col relative overflow-hidden rounded-3xl border-[3px] border-brand-accent/20 bg-gradient-to-br from-brand-accent/10 to-bg-primary shadow-xl cursor-pointer hover:border-brand-accent hover:-translate-y-1 transition-all duration-300 group"
                   onClick={() =>
                     setPreviewItem({
@@ -194,6 +197,9 @@ export const PublicProfileDesktop = ({
                         src={item.url}
                         alt=""
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                        width={420}
+                        height={256}
                         onError={(e) => {
                           e.target.style.display = "none";
                           e.target.nextSibling.style.display = "block";
@@ -250,9 +256,9 @@ export const PublicProfileDesktop = ({
             <div className="grid grid-cols-2 gap-4">
               {links
                 .sort((a, b) => a.position - b.position)
-                .map((link) => (
+                .map((link, idx) => (
                   <a
-                    key={link.id}
+                    key={link._id || link.id || idx}
                     href={link.url}
                     target="_blank"
                     rel="noreferrer"

@@ -192,20 +192,20 @@ export const ShowcaseEditor = () => {
               {isEditing ? "Edit Featured Work" : "Add Featured Work"}
             </h2>
             <div className="flex flex-col gap-4">
-              <Input 
+              <Input
                 label="Title"
-                type="text" 
-                value={editFormData.file_title} 
+                type="text"
+                value={editFormData.file_title}
                 onChange={(e) => {
-                  setEditFormData({...editFormData, file_title: e.target.value});
-                  if (errors.file_title) setErrors({...errors, file_title: null});
+                  setEditFormData({ ...editFormData, file_title: e.target.value });
+                  if (errors.file_title) setErrors({ ...errors, file_title: null });
                 }}
-                placeholder="e.g. Acme Corp Redesign" 
+                placeholder="e.g. Acme Corp Redesign"
                 error={errors.file_title}
               />
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-brand-primary/70 mb-1">
+                  <label className="block text-sm font-bold text-brand-primary mb-8 md:mb-3">
                     File Type
                   </label>
                   <select
@@ -216,7 +216,7 @@ export const ShowcaseEditor = () => {
                         filetype: e.target.value,
                       })
                     }
-                    className="w-full bg-bg-primary border border-brand-primary/10 rounded-lg px-4 py-2 text-text-primary outline-none focus:border-brand-accent transition-colors"
+                    className="w-full bg-bg-primary border border-brand-primary/10 rounded-lg px-4 py-2.5 text-text-primary outline-none focus:border-brand-accent transition-colors"
                   >
                     <option value={"certification"}>Certification</option>
                     <option value={"project"}>Project</option>
@@ -224,25 +224,25 @@ export const ShowcaseEditor = () => {
                     <option value={"document"}>Document</option>
                   </select>
                 </div>
-                <Input 
+                <Input
                   label="External Link (Optional)"
-                  type="url" 
-                  value={editFormData.link_url} 
+                  type="url"
+                  value={editFormData.link_url}
                   onChange={(e) => {
-                    setEditFormData({...editFormData, link_url: e.target.value});
-                    if (errors.link_url) setErrors({...errors, link_url: null});
+                    setEditFormData({ ...editFormData, link_url: e.target.value });
+                    if (errors.link_url) setErrors({ ...errors, link_url: null });
                   }}
-                  placeholder="https://..." 
+                  placeholder="https://..."
                   error={errors.link_url}
                 />
               </div>
-              <Input 
+              <Input
                 as="textarea"
                 label="Description"
                 rows="3"
-                value={editFormData.description} 
-                onChange={(e) => setEditFormData({...editFormData, description: e.target.value})}
-                placeholder="Briefly describe this work..." 
+                value={editFormData.description}
+                onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
+                placeholder="Briefly describe this work..."
               />
               <div>
                 <label className="block text-sm font-medium text-brand-primary/70 mb-1">
@@ -327,9 +327,9 @@ export const ShowcaseEditor = () => {
             </Button>
           </div>
         ) : (
-          showcaseItems.map((item) => (
+          showcaseItems.map((item, idx) => (
             <Card
-              key={item.id}
+              key={item._id || item.id || idx}
               className="p-4 flex gap-4 items-start cursor-pointer hover:border-brand-accent/30 transition-colors relative group"
               onClick={() =>
                 setPreviewItem({

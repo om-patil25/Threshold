@@ -1,9 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useDelayedLoadingMessage } from "../../hooks/useDelayedLoadingMessage";
 
-export const Loader = ({ size = 128 }) => {
+export const Loader = ({ size = 128, showText = size >= 48 }) => {
+  const loadingMessage = useDelayedLoadingMessage(true, "Loading...");
+
   return (
-    <div className="flex items-center justify-center w-full h-full min-h-[200px]">
+    <div className="flex flex-col items-center justify-center w-full h-full min-h-[200px] gap-6">
       <style>{`
         .loader-stage {
           --speed: 1.35s;
@@ -287,6 +290,11 @@ export const Loader = ({ size = 128 }) => {
           </svg>
         </div>
       </div>
+      {showText && (
+        <div className="text-brand-primary/70 font-medium text-sm animate-pulse tracking-wide">
+          {loadingMessage}
+        </div>
+      )}
     </div>
   );
 };

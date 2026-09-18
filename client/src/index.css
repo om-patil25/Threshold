@@ -51,6 +51,28 @@
   --color-brand-accent: #f43f5e;
 }
 
+
+[data-theme="vanilla-latte"] {
+  --color-bg-primary: #fffaf0;
+  --color-text-primary: #3d2b1f;
+  --color-brand-primary: #27140b;
+  --color-brand-accent: #c48c5a;
+}
+
+[data-theme="cloud-silver"] {
+  --color-bg-primary: #f8fafc;
+  --color-text-primary: #334155;
+  --color-brand-primary: #0f172a;
+  --color-brand-accent: #6366f1;
+}
+
+[data-theme="matcha-cream"] {
+  --color-bg-primary: #fdfdf9;
+  --color-text-primary: #2d3730;
+  --color-brand-primary: #152418;
+  --color-brand-accent: #688e55;
+}
+
 /* Dark Themes */
 [data-theme="midnight-slate"] {
   --color-bg-primary: #0f111a;
@@ -148,6 +170,7 @@ body {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

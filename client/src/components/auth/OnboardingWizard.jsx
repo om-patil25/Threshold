@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../shared/Button";
 import { Card } from "../shared/Card";
 import { Input } from "../shared/Input";
@@ -9,7 +9,6 @@ import {
   Upload,
   Link as LinkIcon,
   Image as ImageIcon,
-  ExternalLink,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getAdminUser, updateUser } from "../../service/userServices";
@@ -23,6 +22,9 @@ const THEMES = [
   { id: "midnight-slate", name: "Midnight Slate" },
   { id: "neon-cyberpunk", name: "Neon Cyberpunk" },
   { id: "cherry-blossom", name: "Cherry Blossom" },
+  { id: "vanilla-latte", name: "Vanilla Latte" },
+  { id: "cloud-silver", name: "Cloud Silver" },
+  { id: "matcha-cream", name: "Matcha Cream" },
 ];
 
 export const OnboardingWizard = () => {

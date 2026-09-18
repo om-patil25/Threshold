@@ -240,9 +240,9 @@ export const UpdatesEditor = () => {
             </Button>
           </div>
         ) : (
-          updates.map((update) => (
+          updates.map((update, idx) => (
             <Card
-              key={update.id}
+              key={update._id || update.id || idx}
               className="p-4 flex gap-4 items-start cursor-pointer hover:border-brand-accent/30 transition-colors"
               onClick={() =>
                 setPreviewItem({

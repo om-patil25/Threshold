@@ -61,9 +61,9 @@ export const DashboardLayout = ({
 
   const defaultUser = user
     ? {
-        ...user,
-        theme: user.theme || "ink-and-ochre",
-      }
+      ...user,
+      theme: user.theme || "ink-and-ochre",
+    }
     : null;
 
   const finalUser = previewUser || defaultUser;
@@ -91,7 +91,7 @@ export const DashboardLayout = ({
 
   const NavSidebar = () => (
     <div className="w-64 shrink-0 border-r border-brand-primary/10 h-full min-h-0 flex flex-col bg-bg-primary text-brand-primary p-4">
-      <div className="font-bold text-2xl tracking-tighter text-brand-primary flex items-center gap-2 mb-6 ml-4 px-4">
+      <div className="font-bold text-2xl tracking-tighter text-brand-primary flex items-center justify-start gap-2 mb-6 px-4">
         <img
           src="/logo.png"
           alt="Threshold Logo"
@@ -100,7 +100,7 @@ export const DashboardLayout = ({
         Threshold
       </div>
       {finalUser && (
-        <div className="px-4 mb-6 flex items-center gap-3">
+        <div className="px-4 mb-6 flex items-center justify-start gap-3">
           {finalUser.profileimage ? (
             <img
               src={finalUser.profileimage}
@@ -132,10 +132,9 @@ export const DashboardLayout = ({
               to={item.path}
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
-                  isActive
-                    ? "bg-brand-accent text-white shadow-md"
-                    : "text-brand-primary/70 hover:bg-brand-primary/5 hover:text-brand-primary"
+                `flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${isActive
+                  ? "bg-brand-accent text-white shadow-md"
+                  : "text-brand-primary/70 hover:bg-brand-primary/5 hover:text-brand-primary"
                 }`
               }
             >
@@ -184,13 +183,13 @@ export const DashboardLayout = ({
     <div className="w-96 shrink-0 bg-brand-primary/5 h-full border-l border-brand-primary/10 flex flex-col items-center justify-center p-8">
       <div className="w-[320px] mb-4 bg-white border border-brand-primary/10 rounded-full py-2 pl-4 pr-2 text-center text-sm font-medium text-brand-primary/50 shadow-sm flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <LinkIcon size={14} /> threshold.me/
+          <LinkIcon size={14} /> thrshld.in/
           {finalUser?.username || "username"}
         </div>
         <button
           onClick={() => {
             navigator.clipboard.writeText(
-              `https://threshold.me/${finalUser?.username || "username"}`,
+              `https://thrshld.in/${finalUser?.username || "username"}`,
             );
             toast("Link copied to clipboard!");
           }}

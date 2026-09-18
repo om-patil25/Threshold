@@ -45,6 +45,21 @@ const THEMES = [
     colors: ["#0F111A", "#F8FAFC", "#5EEAD4"],
   },
   {
+    id: "vanilla-latte",
+    name: "Vanilla Latte",
+    colors: ["#FFFAF0", "#27140B", "#C48C5A"],
+  },
+  {
+    id: "cloud-silver",
+    name: "Cloud Silver",
+    colors: ["#F8FAFC", "#0F172A", "#6366F1"],
+  },
+  {
+    id: "matcha-cream",
+    name: "Matcha Cream",
+    colors: ["#FDFDF9", "#152418", "#688E55"],
+  },
+  {
     id: "hacker-terminal",
     name: "Hacker Terminal",
     colors: ["#0A0A0A", "#22C55E", "#4ADE80"],
@@ -110,9 +125,9 @@ export const SettingsEditor = () => {
 
   const previewUser = user
     ? {
-        ...user,
-        theme: activeTheme,
-      }
+      ...user,
+      theme: activeTheme,
+    }
     : null;
 
   const EditorContent = (
@@ -134,11 +149,10 @@ export const SettingsEditor = () => {
             <button
               key={theme.id}
               onClick={() => setActiveTheme(theme.id)}
-              className={`p-4 rounded-xl border-2 text-left transition-all flex flex-col gap-3 ${
-                activeTheme === theme.id
+              className={`p-4 rounded-xl border-2 text-left transition-all flex flex-col gap-3 ${activeTheme === theme.id
                   ? "border-brand-accent shadow-md bg-brand-accent/5"
                   : "border-brand-primary/10 hover:border-brand-primary/30 bg-white"
-              }`}
+                }`}
             >
               <div className="font-bold text-brand-primary">{theme.name}</div>
               <div className="flex h-8 rounded-lg overflow-hidden border border-brand-primary/10">
@@ -160,13 +174,7 @@ export const SettingsEditor = () => {
             className="bg-brand-accent hover:bg-[#6D28D9]"
             disabled={isSaving}
           >
-            {isSaving ? (
-              <div className="flex justify-center items-center h-5 w-24">
-                <Loader size={20} />
-              </div>
-            ) : (
-              "Save Theme"
-            )}
+            {isSaving ? "Processing..." : "Save Theme"}
           </Button>
         </div>
       </Card>

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Card } from "../shared/Card";
 import { ExternalLink, Share2, File } from "lucide-react";
 import { PreviewModal } from "../shared/PreviewModal";
-import { toast } from "../../utils/toast";
+import { handleProfileShare } from "../../utils/share";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const PublicProfileMobile = ({
@@ -64,10 +64,7 @@ export const PublicProfileMobile = ({
         <header className="flex flex-col items-center text-center mt-6 relative">
           <button
             className="absolute top-0 right-0 p-2 text-brand-primary/60 hover:text-brand-primary bg-brand-primary/5 hover:bg-brand-primary/10 rounded-full transition-colors"
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
-              toast("Profile link copied to clipboard!");
-            }}
+            onClick={() => handleProfileShare(user)}
             title="Share Profile"
           >
             <Share2 size={20} />
@@ -77,6 +74,9 @@ export const PublicProfileMobile = ({
               src={user.profileimage}
               alt={user.name}
               className="w-24 h-24 rounded-full object-cover border-4 border-bg-primary shadow-md mb-4"
+              loading="lazy"
+              width={96}
+              height={96}
             />
           ) : (
             <div className="w-24 h-24 rounded-full bg-brand-primary/20 flex items-center justify-center text-3xl font-bold text-brand-primary border-4 border-bg-primary shadow-md mb-4">
@@ -102,7 +102,7 @@ export const PublicProfileMobile = ({
             <h2 className="text-xl font-bold text-brand-primary mb-4 m-0 flex justify-between items-center">
               Updates
               <span className="text-xs font-normal text-text-primary/50">
-                Swipe to view
+                Swipe left to view
               </span>
             </h2>
             <div className="relative w-full h-48">
@@ -113,7 +113,7 @@ export const PublicProfileMobile = ({
                     const pos = idx; // 0 is front card
                     return (
                       <motion.div
-                        key={update.id}
+                        key={update._id || update.id || idx}
                         drag={pos === 0 ? "x" : false}
                         dragConstraints={{ left: 0, right: 0 }}
                         onDragStart={() => {
@@ -146,6 +146,9 @@ export const PublicProfileMobile = ({
                                 src={update.img_url}
                                 alt=""
                                 className="w-full h-full object-cover"
+                                loading="lazy"
+                                width={320}
+                                height={80}
                               />
                             </div>
                           )}
@@ -222,9 +225,9 @@ export const PublicProfileMobile = ({
                 featuredIsDragging.current = false;
               }}
             >
-              {showcaseItems.map((item) => (
+              {showcaseItems.map((item, idx) => (
                 <Card
-                  key={item.id}
+                  key={item._id || item.id || idx}
                   className="w-[85%] max-w-[85%] snap-center flex flex-col flex-shrink-0 relative overflow-hidden rounded-3xl border-[3px] border-brand-accent/20 bg-gradient-to-br from-brand-accent/10 to-bg-primary shadow-xl cursor-pointer"
                   onClick={(e) => {
                     if (featuredIsDragging.current) {
@@ -251,6 +254,9 @@ export const PublicProfileMobile = ({
                         src={item.url}
                         alt=""
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        width={320}
+                        height={192}
                         onError={(e) => {
                           e.target.style.display = "none";
                           e.target.nextSibling.style.display = "block";
@@ -317,9 +323,9 @@ export const PublicProfileMobile = ({
             <div className="flex flex-col gap-3">
               {links
                 .sort((a, b) => a.position - b.position)
-                .map((link) => (
+                .map((link, idx) => (
                   <a
-                    key={link.id}
+                    key={link._id || link.id || idx}
                     href={link.url}
                     target="_blank"
                     rel="noreferrer"

@@ -198,7 +198,7 @@ export const LinksEditor = () => {
         ) : (
           links.map((link, index) => (
             <Card
-              key={link.id}
+              key={link._id || link.id || index}
               className="p-4 flex items-center gap-4 transition-transform hover:shadow-md"
             >
               <div className="flex-grow flex flex-col gap-1 overflow-hidden">

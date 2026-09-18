@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Code, Layers, EyeOff } from "lucide-react";
+import { ArrowRight, Sparkles, Code, Layers, EyeOff, LayoutTemplate, Link as LinkIcon, Store, ChevronDown } from "lucide-react";
+import { MarketingBenefits, MarketingDeveloper, MarketingFooter } from "./MarketingPage";
 import { FadeInSection } from "../shared/FadeInSection";
 import { fetchPublicUser } from "../../service/userServices";
 import { PublicProfileDesktop } from "../publicProfile/PublicProfileDesktop";
@@ -15,18 +16,29 @@ export const MarketingDesktop = ({
   onStart,
   onLogin,
   onSignUp,
+  onAdmin,
+  isLoggedIn,
 }) => {
   const [wordIndex, setWordIndex] = useState(0);
   const [fade, setFade] = useState(false);
   const [username, setUsername] = useState("");
   const [profileData, setProfileData] = useState(null);
+  const [profileData1, setProfileData1] = useState(null);
+  const [profileData2, setProfileData2] = useState(null);
+  const [profileData3, setProfileData3] = useState(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
     const getProfile = async () => {
       try {
         const data = await fetchPublicUser("mockpriya");
+        const data1 = await fetchPublicUser("mockananya");
+        const data2 = await fetchPublicUser("mockkabir");
+        const data3 = await fetchPublicUser("mockarjun");
         setProfileData(data);
+        setProfileData1(data1);
+        setProfileData2(data2);
+        setProfileData3(data3);
       } catch (err) {
         console.error(err);
       } finally {
@@ -59,35 +71,44 @@ export const MarketingDesktop = ({
       <div className="fixed top-0 left-0 w-full z-50 flex justify-center px-4">
         <header className="flex justify-between items-center px-8 py-4 max-w-5xl w-full bg-white/80 backdrop-blur-md border border-t-0 border-brand-accent/20 rounded-b-2xl shadow-sm">
           <div className="font-bold text-2xl tracking-tighter text-brand-primary flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-brand-accent text-white flex items-center justify-center">
-              T
-            </div>
+            <img src="/logo.png" alt="Threshold Logo" className="w-8 h-8 object-contain" />
             Threshold
           </div>
           <div className="flex gap-4">
-            <button
-              onClick={onLogin}
-              className="px-4 py-2 font-bold text-brand-primary hover:bg-black/5 rounded-full transition-colors"
-            >
-              Login
-            </button>
-            <button
-              onClick={onSignUp}
-              className="px-6 py-2 font-bold bg-brand-accent text-white rounded-full hover:bg-[#6D28D9] transition-colors"
-            >
-              Sign Up
-            </button>
+            {isLoggedIn ? (
+              <button
+                onClick={onAdmin}
+                className="px-6 py-2 font-bold bg-brand-accent text-white rounded-full hover:bg-[#6D28D9] transition-colors"
+              >
+                Admin
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={onLogin}
+                  className="px-4 py-2 font-bold text-brand-primary hover:bg-black/5 rounded-full transition-colors"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={onSignUp}
+                  className="px-6 py-2 font-bold bg-brand-accent text-white rounded-full hover:bg-[#6D28D9] transition-colors"
+                >
+                  Sign Up
+                </button>
+              </>
+            )}
           </div>
         </header>
       </div>
 
       <main className="grow">
         {/* Hero Section */}
-        <section className="relative pt-40 pb-32 min-h-150 flex items-center">
+        <section className="relative pt-40 pb-32 min-h-screen flex items-center">
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <img
-              src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop"
+              src="/hero-bg.webp"
               alt="Desk"
               className="w-full h-full object-cover"
             />
@@ -116,7 +137,7 @@ export const MarketingDesktop = ({
             <div className="flex flex-col items-center max-w-md mx-auto">
               <div className="flex bg-white border-2 border-brand-accent rounded-full p-1 w-full shadow-lg relative">
                 <div className="flex items-center pl-6 text-brand-primary/50 font-medium select-none">
-                  threshold.me/
+                  thrshld.in/
                 </div>
                 <input
                   type="text"
@@ -143,10 +164,22 @@ export const MarketingDesktop = ({
               )}
             </div>
           </FadeInSection>
+
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+            <button
+              onClick={() => {
+                document.getElementById('make-presence').scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="text-brand-primary hover:text-brand-accent transition-colors p-2 rounded-full bg-white/50 backdrop-blur-md shadow-sm border border-brand-primary/10"
+              aria-label="Scroll down"
+            >
+              <ChevronDown size={32} />
+            </button>
+          </div>
         </section>
 
         {/* Make Your Presence Section */}
-        <section className="bg-white text-brand-primary py-32 px-12 border-y border-brand-primary/5">
+        <section id="make-presence" className="bg-white text-brand-primary py-32 px-12 border-y border-brand-primary/5">
           <FadeInSection className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
             <div className="flex-1">
               <h2 className="text-5xl font-bold mb-6 text-brand-accent">
@@ -212,99 +245,145 @@ export const MarketingDesktop = ({
           </FadeInSection>
         </section>
 
-        {/* Benefits Section */}
-        <section className="py-32 px-12 max-w-6xl mx-auto">
-          <FadeInSection className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-2xl bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-6">
-                <Layers size={32} />
+        {/* Use As Section */}
+        <section className="relative bg-bg-primary text-brand-primary py-32 px-12 overflow-hidden">
+          {/* Ambient background gradients */}
+          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-brand-secondary/10 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/2"></div>
+          <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-brand-primary/10 rounded-full blur-[100px] translate-y-1/3"></div>
+
+          <div className="max-w-6xl mx-auto flex flex-col gap-32 relative z-10">
+            {/* Portfolio */}
+            <FadeInSection className="flex flex-col md:flex-row items-center gap-16">
+              <div className="flex-1 flex justify-center">
+                <div className="w-[300px] h-[400px] bg-white rounded-[2rem] border-[8px] border-brand-accent shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
+                  {loadingProfile || !profileData ? (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Loader size={24} />
+                    </div>
+                  ) : (
+                    <div
+                      className="absolute top-0 left-0 w-[375px] h-[510px] origin-top-left pointer-events-none hide-scrollbar overflow-hidden"
+                      style={{ transform: "scale(0.757)" }}
+                    >
+                      <PublicProfileMobile
+                        user={profileData1.publicUser}
+                        links={profileData1.links || []}
+                        showcaseItems={profileData1.showcase_items || []}
+                        updates={[]}
+                        isPreview={true}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-              <h3 className="text-2xl font-bold text-brand-primary mb-4">
-                Everything in one place
-              </h3>
-              <p className="text-brand-primary/70">
-                Your projects, updates, and links — one page instead of five
-                different tabs and bios.
-              </p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-2xl bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-6">
-                <Code size={32} />
+              <div className="flex-1">
+                <h3 className="text-4xl font-bold mb-6 text-brand-accent">
+                  Use as a portfolio.
+                </h3>
+                <p className="text-xl text-brand-primary/80 mb-8 leading-relaxed">
+                  Feature your best projects, certifications, and achievements — the work speaks for itself.
+                </p>
+                <button
+                  onClick={onSignUp}
+                  className="px-8 py-3 font-bold bg-brand-accent text-white rounded-full hover:bg-[#6D28D9] transition-colors"
+                >
+                  Get Started
+                </button>
               </div>
-              <h3 className="text-2xl font-bold text-brand-primary mb-4">
-                Your best work, front and center
-              </h3>
-              <p className="text-brand-primary/70">
-                Featured projects get real space to breathe, not squeezed into
-                another link row.
-              </p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-2xl bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-6">
-                <EyeOff size={32} />
+            </FadeInSection>
+
+            {/* Link-in-bio */}
+            <FadeInSection className="flex flex-col md:flex-row-reverse items-center gap-16">
+              <div className="flex-1 flex justify-center">
+                <div className="w-[300px] h-[400px] bg-white rounded-[2rem] border-[8px] border-brand-secondary shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
+                  {loadingProfile || !profileData ? (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Loader size={24} />
+                    </div>
+                  ) : (
+                    <div
+                      className="absolute top-0 left-0 w-[375px] h-[510px] origin-top-left pointer-events-none hide-scrollbar overflow-hidden"
+                      style={{ transform: "scale(0.757)" }}
+                    >
+                      <PublicProfileMobile
+                        user={profileData2.publicUser}
+                        links={profileData2.links || []}
+                        showcaseItems={[]}
+                        updates={[]}
+                        isPreview={true}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-              <h3 className="text-2xl font-bold text-brand-primary mb-4">
-                Only what you need, nothing you don't
-              </h3>
-              <p className="text-brand-primary/70">
-                Skip a section and it just disappears. No empty placeholders, no
-                clutter.
-              </p>
-            </div>
-          </FadeInSection>
+              <div className="flex-1">
+                <h3 className="text-4xl font-bold mb-6 text-brand-secondary">
+                  Use as a link-in-bio.
+                </h3>
+                <p className="text-xl text-brand-primary/80 mb-8 leading-relaxed">
+                  Just links, done simply. Send people everywhere that matters, from one clean page.
+                </p>
+                <button
+                  onClick={onSignUp}
+                  className="px-8 py-3 font-bold bg-brand-secondary text-white rounded-full hover:bg-[#02c880] transition-colors"
+                >
+                  Get Started
+                </button>
+              </div>
+            </FadeInSection>
+
+            {/* Storefront */}
+            <FadeInSection className="flex flex-col md:flex-row items-center gap-16">
+              <div className="flex-1 flex justify-center">
+                <div className="w-[300px] h-[400px] bg-white rounded-[2rem] border-[8px] border-brand-primary shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
+                  {loadingProfile || !profileData ? (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Loader size={24} />
+                    </div>
+                  ) : (
+                    <div
+                      className="absolute top-0 left-0 w-[375px] h-[510px] origin-top-left pointer-events-none hide-scrollbar overflow-hidden"
+                      style={{ transform: "scale(0.757)" }}
+                    >
+                      <PublicProfileMobile
+                        user={profileData3.publicUser}
+                        links={(profileData3.links || []).slice(0, 2)}
+                        showcaseItems={[...(profileData3.showcase_items || [])].reverse().slice(0, 2)}
+                        updates={[]}
+                        isPreview={true}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-4xl font-bold mb-6 text-brand-primary">
+                  Use as a storefront.
+                </h3>
+                <p className="text-xl text-brand-primary/80 mb-8 leading-relaxed">
+                  Showcase what you offer and link straight to where people can buy or book — no cart, no checkout hassle, just a clear path to you.
+                </p>
+                <button
+                  onClick={onSignUp}
+                  className="px-8 py-3 font-bold bg-brand-primary text-white rounded-full hover:bg-black transition-colors"
+                >
+                  Get Started
+                </button>
+              </div>
+            </FadeInSection>
+          </div>
         </section>
 
+        {/* Benefits Section */}
+        <MarketingBenefits />
+
         {/* Connect with the developer */}
-        <FadeInSection className="py-12 px-12 max-w-2xl mx-auto border-t border-brand-primary/10 flex flex-col md:flex-row items-center gap-6 justify-center mt-12 mb-8">
-          <div className="w-16 h-16 rounded-full bg-brand-accent/20 shrink-0 flex items-center justify-center font-bold text-brand-accent">
-            OP
-          </div>
-          <div className="text-center md:text-left">
-            <h2 className="font-bold text-brand-primary text-lg">
-              Built by Om Patil
-            </h2>
-            <p className="text-brand-primary/70 text-sm mb-3">
-              Learning full-stack development, one real project at a time.{" "}
-              <span className="text-brand-accent">Threshold</span> is my proof
-              of work — built end to end, from the database up.
-            </p>
-            <div className="flex gap-4 justify-center md:justify-start text-sm text-brand-accent font-medium">
-              <a
-                href="https://github.com/om-patil25"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="hover:underline"
-              >
-                GitHub
-              </a>
-              <span>·</span>
-              <a
-                href="https://www.linkedin.com/in/om-patil25/"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="hover:underline"
-              >
-                LinkedIn
-              </a>
-              <span>·</span>
-              <a
-                href="https://ompatil.vercel.app/"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="hover:underline"
-              >
-                My Threshold
-              </a>
-            </div>
-          </div>
-        </FadeInSection>
+        <MarketingDeveloper />
       </main>
 
       {/* Footer */}
-      <footer className="py-8 text-center text-sm text-brand-primary/50 font-medium">
-        &copy; {new Date().getFullYear()} Threshold Platform. All rights
-        reserved.
-      </footer>
+      <MarketingFooter />
     </div>
   );
 };

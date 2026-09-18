@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Code, Layers, EyeOff } from "lucide-react";
+import { FadeInSection } from "../shared/FadeInSection";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { MarketingDesktop } from "./MarketingDesktop";
 import { MarketingMobile } from "./MarketingMobile";
@@ -14,16 +16,18 @@ export const MarketingPage = () => {
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await getAdminUser();
         if (res && res.user) {
-          navigate("/admin");
-        } else {
-          setIsCheckingAuth(false);
+          setIsLoggedIn(true);
         }
       } catch (err) {
+        // Not logged in
+      } finally {
         setIsCheckingAuth(false);
       }
     };
@@ -58,6 +62,10 @@ export const MarketingPage = () => {
     navigate("/auth?mode=signup");
   };
 
+  const handleAdmin = () => {
+    navigate("/admin");
+  };
+
   if (isCheckingAuth) {
     return <div className="min-h-screen bg-bg-primary" />;
   }
@@ -70,6 +78,8 @@ export const MarketingPage = () => {
         onStart={handleStart}
         onLogin={handleLogin}
         onSignUp={handleSignUp}
+        onAdmin={handleAdmin}
+        isLoggedIn={isLoggedIn}
       />
     );
   }
@@ -81,6 +91,101 @@ export const MarketingPage = () => {
       onStart={handleStart}
       onLogin={handleLogin}
       onSignUp={handleSignUp}
+      onAdmin={handleAdmin}
+      isLoggedIn={isLoggedIn}
     />
   );
 };
+
+export const MarketingBenefits = () => (
+  <section className="py-20 md:py-32 px-6 md:px-12 max-w-6xl mx-auto">
+    <FadeInSection className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div className="flex flex-col items-center text-center">
+        <div className="w-16 h-16 rounded-2xl bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-4 md:mb-6">
+          <EyeOff size={32} />
+        </div>
+        <h3 className="text-2xl font-bold text-brand-primary mb-3 md:mb-4">
+          No clutter, ever
+        </h3>
+        <p className="text-brand-primary/70">
+          Empty sections just disappear. Your page only ever shows what you've actually filled in.
+        </p>
+      </div>
+      <div className="flex flex-col items-center text-center">
+        <div className="w-16 h-16 rounded-2xl bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-4 md:mb-6">
+          <Code size={32} />
+        </div>
+        <h3 className="text-2xl font-bold text-brand-primary mb-3 md:mb-4">
+          Built to look like real work
+        </h3>
+        <p className="text-brand-primary/70">
+          Featured projects get real visual space, not squeezed into a link row.
+        </p>
+      </div>
+      <div className="flex flex-col items-center text-center">
+        <div className="w-16 h-16 rounded-2xl bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-4 md:mb-6">
+          <Layers size={32} />
+        </div>
+        <h3 className="text-2xl font-bold text-brand-primary mb-3 md:mb-4">
+          Completely free
+        </h3>
+        <p className="text-brand-primary/70">
+          No paywalled features, no premium tier. Just build your page.
+        </p>
+      </div>
+    </FadeInSection>
+  </section>
+);
+
+export const MarketingDeveloper = () => (
+  <FadeInSection className="py-12 px-6 md:px-12 max-w-2xl mx-auto border-t border-brand-primary/10 flex flex-col md:flex-row items-center gap-4 md:gap-6 justify-center mt-4 md:mt-12 mb-4 md:mb-8 text-center md:text-left">
+    <div className="w-16 h-16 rounded-full bg-brand-accent/20 shrink-0 flex items-center justify-center font-bold text-brand-accent mb-0">
+      OP
+    </div>
+    <div>
+      <h2 className="font-bold text-brand-primary text-lg">
+        Built by Om Patil
+      </h2>
+      <p className="text-brand-primary/70 text-sm mb-4 md:mb-3">
+        Learning full-stack development, one real project at a time.{" "}
+        <span className="text-brand-accent">Threshold</span> is my proof
+        of work — built end to end, from the database up.
+      </p>
+      <div className="flex gap-4 justify-center md:justify-start text-sm text-brand-accent font-medium">
+        <a
+          href="https://github.com/om-patil25"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="hover:underline"
+        >
+          GitHub
+        </a>
+        <span>·</span>
+        <a
+          href="https://www.linkedin.com/in/om-patil25/"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="hover:underline"
+        >
+          LinkedIn
+        </a>
+        <span>·</span>
+        <a
+          href="https://ompatil.vercel.app/"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="hover:underline"
+        >
+          My Threshold
+        </a>
+      </div>
+    </div>
+  </FadeInSection>
+);
+
+export const MarketingFooter = () => (
+  <footer className="py-8 text-center text-sm text-brand-primary/50 font-medium">
+    &copy; {new Date().getFullYear()} Threshold Platform. All rights
+    reserved.
+  </footer>
+);
