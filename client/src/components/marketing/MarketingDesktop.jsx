@@ -1,13 +1,31 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { ArrowRight, Sparkles, Code, Layers, EyeOff, LayoutTemplate, Link as LinkIcon, Store, ChevronDown } from "lucide-react";
-import { MarketingBenefits, MarketingHelpCTA, MarketingDeveloper, MarketingFooter } from "./MarketingPage";
+import {
+  ArrowRight,
+  Sparkles,
+  Code,
+  Layers,
+  EyeOff,
+  LayoutTemplate,
+  Link as LinkIcon,
+  Store,
+  ChevronDown,
+} from "lucide-react";
+import {
+  MarketingBenefits,
+  MarketingHelpCTA,
+  MarketingDeveloper,
+  MarketingFooter,
+} from "./MarketingPage";
 import { FadeInSection } from "../shared/FadeInSection";
 import { fetchPublicUser } from "../../service/userServices";
 import { PublicProfileDesktop } from "../publicProfile/PublicProfileDesktop";
 import { PublicProfileMobile } from "../publicProfile/PublicProfileMobile";
 import { Loader } from "../shared/Loader";
 import { MarketingNavbarDesktop } from "./MarketingNavbarDesktop";
+import mockananaya from "../../assets/mockananaya.webp";
+import mockarjun from "../../assets/mockarjun.webp";
+import mockkabir from "../../assets/mockkabir.webp";
 
 const DYNAMIC_WORDS = ["portfolio", "storefront", "link in bio"];
 
@@ -60,7 +78,7 @@ export const MarketingDesktop = ({
   return (
     <div className="min-h-screen bg-bg-primary text-brand-primary flex flex-col font-sans">
       {/* Top bar (Notch) */}
-      <MarketingNavbarDesktop 
+      <MarketingNavbarDesktop
         isLoggedIn={isLoggedIn}
         onAdmin={onAdmin}
         onLogin={onLogin}
@@ -134,7 +152,9 @@ export const MarketingDesktop = ({
           <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 animate-bounce">
             <button
               onClick={() => {
-                document.getElementById('make-presence').scrollIntoView({ behavior: 'smooth' });
+                document
+                  .getElementById("make-presence")
+                  .scrollIntoView({ behavior: "smooth" });
               }}
               className="text-brand-primary hover:text-brand-accent transition-colors p-2 rounded-full bg-white/50 backdrop-blur-md shadow-sm border border-brand-primary/10"
               aria-label="Scroll down"
@@ -145,7 +165,10 @@ export const MarketingDesktop = ({
         </section>
 
         {/* Make Your Presence Section */}
-        <section id="make-presence" className="bg-white text-brand-primary py-32 px-12 border-y border-brand-primary/5">
+        <section
+          id="make-presence"
+          className="bg-white text-brand-primary py-32 px-12 border-y border-brand-primary/5"
+        >
           <FadeInSection className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
             <div className="flex-1">
               <h2 className="text-5xl font-bold mb-6 text-brand-accent">
@@ -160,7 +183,6 @@ export const MarketingDesktop = ({
             <div className="flex-1 flex items-end justify-center relative w-full h-[350px]">
               {/* Desktop mockup */}
               <div className="absolute right-12 bottom-0 w-[450px] h-[280px] bg-bg-primary rounded-t-xl border-t-8 border-x-8 border-brand-accent shadow-2xl overflow-hidden flex flex-col opacity-95">
-
                 {/* Content */}
                 <div className="flex-1 relative overflow-hidden bg-bg-primary">
                   {loadingProfile || !profileData ? (
@@ -223,7 +245,12 @@ export const MarketingDesktop = ({
             <FadeInSection className="flex flex-col md:flex-row items-center gap-16">
               <div className="flex-1 flex justify-center">
                 <div className="w-[300px] h-[400px] bg-white rounded-[2rem] border-[8px] border-brand-accent shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
-                  <img src="/src/assets/mockananaya.webp" loading="lazy" alt="Portfolio Preview" className="w-full h-full object-cover object-top" />
+                  <img
+                    src={mockananaya}
+                    loading="lazy"
+                    alt="Portfolio Preview"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
               </div>
               <div className="flex-1">
@@ -231,7 +258,8 @@ export const MarketingDesktop = ({
                   Use as a portfolio.
                 </h3>
                 <p className="text-xl text-brand-primary mb-8 leading-relaxed">
-                  Feature your best projects, certifications, and achievements — the work speaks for itself.
+                  Feature your best projects, certifications, and achievements —
+                  the work speaks for itself.
                 </p>
                 <button
                   onClick={onSignUp}
@@ -247,7 +275,12 @@ export const MarketingDesktop = ({
             <FadeInSection className="flex flex-col md:flex-row-reverse items-center gap-16">
               <div className="flex-1 flex justify-center">
                 <div className="w-[300px] h-[400px] bg-white rounded-[2rem] border-[8px] border-brand-secondary shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
-                  <img src="/src/assets/mockkabir.webp" loading="lazy" alt="Link-in-bio Preview" className="w-full h-full object-cover object-top" />
+                  <img
+                    src={mockkabir}
+                    loading="lazy"
+                    alt="Link-in-bio Preview"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
               </div>
               <div className="flex-1">
@@ -255,7 +288,8 @@ export const MarketingDesktop = ({
                   Use as a link-in-bio.
                 </h3>
                 <p className="text-xl text-brand-primary mb-8 leading-relaxed">
-                  Just links, done simply. Send people everywhere that matters, from one clean page.
+                  Just links, done simply. Send people everywhere that matters,
+                  from one clean page.
                 </p>
                 <button
                   onClick={onSignUp}
@@ -271,7 +305,12 @@ export const MarketingDesktop = ({
             <FadeInSection className="flex flex-col md:flex-row items-center gap-16">
               <div className="flex-1 flex justify-center">
                 <div className="w-[300px] h-[400px] bg-white rounded-[2rem] border-[8px] border-brand-primary shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
-                  <img src="/src/assets/mockarjun.webp" loading="lazy" alt="Storefront Preview" className="w-full h-full object-cover object-top" />
+                  <img
+                    src={mockarjun}
+                    loading="lazy"
+                    alt="Storefront Preview"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
               </div>
               <div className="flex-1">
@@ -279,7 +318,9 @@ export const MarketingDesktop = ({
                   Use as a storefront.
                 </h3>
                 <p className="text-xl text-brand-primary mb-8 leading-relaxed">
-                  Showcase what you offer and link straight to where people can buy or book — no cart, no checkout hassle, just a clear path to you.
+                  Showcase what you offer and link straight to where people can
+                  buy or book — no cart, no checkout hassle, just a clear path
+                  to you.
                 </p>
                 <button
                   onClick={onSignUp}
@@ -314,4 +355,3 @@ MarketingDesktop.propTypes = {
   onLogin: PropTypes.func,
   onSignUp: PropTypes.func,
 };
-

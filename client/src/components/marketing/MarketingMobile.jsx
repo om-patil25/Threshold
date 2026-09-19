@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { ArrowRight, Sparkles, Code, Layers, EyeOff, LayoutTemplate, Link as LinkIcon, Store, ChevronDown, Menu } from "lucide-react";
-import { MarketingBenefits, MarketingHelpCTA, MarketingDeveloper, MarketingFooter } from "./MarketingPage";
+import {
+  MarketingBenefits,
+  MarketingHelpCTA,
+  MarketingDeveloper,
+  MarketingFooter,
+} from "./MarketingPage";
 import { FadeInSection } from "../shared/FadeInSection";
 import { fetchPublicUser } from "../../service/userServices";
 import { PublicProfileDesktop } from "../publicProfile/PublicProfileDesktop";
 import { PublicProfileMobile as PublicProfileMobileComponent } from "../publicProfile/PublicProfileMobile";
 import { Loader } from "../shared/Loader";
 import { MarketingNavbarMobile } from "./MarketingNavbarMobile";
+import mockananaya from "../../assets/mockananaya.webp";
+import mockarjun from "../../assets/mockarjun.webp";
+import mockkabir from "../../assets/mockkabir.webp";
 
 const DYNAMIC_WORDS = ["portfolio", "storefront", "link in bio"];
 
@@ -60,7 +67,7 @@ export const MarketingMobile = ({
   return (
     <div className="min-h-screen bg-bg-primary text-brand-primary flex flex-col font-sans">
       {/* Top bar (Notch) */}
-      <MarketingNavbarMobile 
+      <MarketingNavbarMobile
         isLoggedIn={isLoggedIn}
         onAdmin={onAdmin}
         onLogin={onLogin}
@@ -148,7 +155,6 @@ export const MarketingMobile = ({
             </div>
             <div className="flex flex-col gap-8 items-center justify-center">
               <div className="w-full max-w-xs h-64 bg-bg-primary rounded-t-xl border-t-8 border-x-8 border-brand-accent relative overflow-hidden shadow-2xl flex flex-col opacity-95 mx-auto text-left">
-
                 <div className="flex-1 relative overflow-hidden bg-bg-primary">
                   {loadingProfile || !profileData ? (
                     <div className="w-full h-full flex items-center justify-center">
@@ -208,7 +214,12 @@ export const MarketingMobile = ({
             <FadeInSection className="flex flex-col gap-8 text-center">
               <div className="flex justify-center">
                 <div className="w-[240px] h-[320px] bg-white rounded-t-3xl border-t-8 border-x-8 border-b-0 border-brand-accent shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
-                  <img src="/src/assets/mockananaya.webp" loading="lazy" alt="Portfolio Preview" className="w-full h-full object-cover object-top" />
+                  <img
+                    src={mockananaya}
+                    loading="lazy"
+                    alt="Portfolio Preview"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
               </div>
               <div>
@@ -216,7 +227,8 @@ export const MarketingMobile = ({
                   Use as a portfolio.
                 </h3>
                 <p className="text-lg text-brand-primary mb-6 leading-relaxed">
-                  Feature your best projects, certifications, and achievements — the work speaks for itself.
+                  Feature your best projects, certifications, and achievements —
+                  the work speaks for itself.
                 </p>
                 <button
                   onClick={onSignUp}
@@ -232,7 +244,12 @@ export const MarketingMobile = ({
             <FadeInSection className="flex flex-col gap-8 text-center">
               <div className="flex justify-center">
                 <div className="w-[240px] h-[320px] bg-white rounded-t-3xl border-t-8 border-x-8 border-b-0 border-brand-secondary shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
-                  <img src="/src/assets/mockkabir.webp" loading="lazy" alt="Link-in-bio Preview" className="w-full h-full object-cover object-top" />
+                  <img
+                    src={mockkabir}
+                    loading="lazy"
+                    alt="Link-in-bio Preview"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
               </div>
               <div>
@@ -240,7 +257,8 @@ export const MarketingMobile = ({
                   Use as a link-in-bio.
                 </h3>
                 <p className="text-lg text-brand-primary mb-6 leading-relaxed">
-                  Just links, done simply. Send people everywhere that matters, from one clean page.
+                  Just links, done simply. Send people everywhere that matters,
+                  from one clean page.
                 </p>
                 <button
                   onClick={onSignUp}
@@ -256,7 +274,12 @@ export const MarketingMobile = ({
             <FadeInSection className="flex flex-col gap-8 text-center">
               <div className="flex justify-center">
                 <div className="w-[240px] h-[320px] bg-white rounded-t-3xl border-t-8 border-x-8 border-b-0 border-brand-primary shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
-                  <img src="/src/assets/mockarjun.webp" loading="lazy" alt="Storefront Preview" className="w-full h-full object-cover object-top" />
+                  <img
+                    src={mockarjun}
+                    loading="lazy"
+                    alt="Storefront Preview"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
               </div>
               <div>
@@ -264,7 +287,9 @@ export const MarketingMobile = ({
                   Use as a storefront.
                 </h3>
                 <p className="text-lg text-brand-primary mb-6 leading-relaxed">
-                  Showcase what you offer and link straight to where people can buy or book — no cart, no checkout hassle, just a clear path to you.
+                  Showcase what you offer and link straight to where people can
+                  buy or book — no cart, no checkout hassle, just a clear path
+                  to you.
                 </p>
                 <button
                   onClick={onSignUp}
@@ -299,4 +324,3 @@ MarketingMobile.propTypes = {
   onLogin: PropTypes.func,
   onSignUp: PropTypes.func,
 };
-
