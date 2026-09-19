@@ -7,11 +7,11 @@ import { ShowcaseEditor } from "./components/dashboard/ShowcaseEditor";
 import { AnalyticsEditor } from "./components/dashboard/AnalyticsEditor";
 import { SettingsEditor } from "./components/dashboard/SettingsEditor";
 import { ProfileEditor } from "./components/dashboard/ProfileEditor";
-import { HelpAndSupport } from "./components/dashboard/HelpAndSupport";
 import { AuthForms } from "./components/auth/AuthForms";
 import { OnboardingWizard } from "./components/auth/OnboardingWizard";
 import { Toast } from "./components/shared/Toast";
 import { DashboardProvider } from "./context/DashboardContext";
+import { HelpPage } from "./components/marketing/HelpPage";
 
 // Placeholder components
 const Placeholder = ({ title }) => (
@@ -46,7 +46,6 @@ const DashboardRoutes = () => (
       <Route path="links" element={<LinksEditor />} />
       <Route path="featured" element={<ShowcaseEditor />} />
       <Route path="analytics" element={<AnalyticsEditor />} />
-      <Route path="support" element={<HelpAndSupport />} />
       <Route path="settings" element={<SettingsEditor />} />
       <Route path="profile" element={<ProfileEditor />} />
     </Routes>
@@ -59,6 +58,7 @@ function App() {
       <div className="min-h-screen bg-bg-primary text-text-primary">
         <Routes>
           <Route path="/" element={<MarketingPage />} />
+          <Route path="/help" element={<HelpPage />} />
           <Route path="/auth" element={<AuthForms />} />
           <Route path="/onboarding" element={<OnboardingWizard />} />
           <Route path="/admin/*" element={<DashboardRoutes />} />

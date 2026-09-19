@@ -113,7 +113,7 @@ export const AnalyticsEditor = () => {
 
       <div className="grid grid-cols-2 gap-4">
         <Card className="p-6">
-          <div className="text-text-primary/70 text-sm font-medium mb-1">
+          <div className="text-text-primary text-sm font-medium mb-1">
             Total Profile Views
           </div>
           <div className="text-3xl font-bold text-brand-primary">
@@ -121,7 +121,7 @@ export const AnalyticsEditor = () => {
           </div>
         </Card>
         <Card className="p-6">
-          <div className="text-text-primary/70 text-sm font-medium mb-1">
+          <div className="text-text-primary text-sm font-medium mb-1">
             Total Link Clicks
           </div>
           <div className="text-3xl font-bold text-brand-primary">
@@ -272,3 +272,4 @@ export const AnalyticsEditor = () => {
 
   return <DashboardLayout>{EditorContent}</DashboardLayout>;
 };
+

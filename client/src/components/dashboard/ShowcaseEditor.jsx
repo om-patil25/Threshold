@@ -23,7 +23,7 @@ import { ConfirmModal } from "../shared/ConfirmModal";
 import { PreviewModal } from "../shared/PreviewModal";
 
 export const ShowcaseEditor = () => {
-  const { showcase: showcaseItems = [], refreshData } = useDashboard();
+  const { showcase: showcaseItems = [], refreshData, loading } = useDashboard();
   const [showForm, setShowForm] = useState(false);
   const [isEditing, setIsEditing] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -245,7 +245,7 @@ export const ShowcaseEditor = () => {
                 placeholder="Briefly describe this work..."
               />
               <div>
-                <label className="block text-sm font-medium text-brand-primary/70 mb-1">
+                <label className="block text-sm font-medium text-brand-primary mb-1">
                   Upload Cover/Preview (Max 3MB)
                 </label>
                 <input
@@ -255,7 +255,7 @@ export const ShowcaseEditor = () => {
                   onChange={handleFileChange}
                 />
                 <div
-                  className="w-full h-24 border-2 border-dashed border-brand-primary/20 rounded-lg flex flex-col items-center justify-center text-brand-primary/50 hover:bg-brand-primary/5 transition-colors cursor-pointer relative overflow-hidden"
+                  className="w-full h-24 border-2 border-dashed border-brand-primary/20 rounded-lg flex flex-col items-center justify-center text-brand-primary hover:bg-brand-primary/5 transition-colors cursor-pointer relative overflow-hidden"
                   onClick={() => fileInputRef.current?.click()}
                 >
                   {editFormData?.url ? (
@@ -314,18 +314,22 @@ export const ShowcaseEditor = () => {
 
       <div
         className={
-          showcaseItems.length === 0
+          showcaseItems.length === 0 && !isSaving && !loading
             ? "flex flex-col"
             : "grid grid-cols-1 md:grid-cols-2 gap-6"
         }
       >
         {showcaseItems.length === 0 ? (
-          <div className="text-center py-12 px-6 text-brand-primary/60 bg-white rounded-xl border-2 border-dashed border-brand-primary/10 shadow-sm flex flex-col items-center justify-center">
-            <p className="mb-4">You haven't added any featured work yet.</p>
-            <Button variant="outline" onClick={() => setShowForm(true)}>
-              Add your first featured work
-            </Button>
-          </div>
+          isSaving || loading ? (
+            <div className="py-12 flex justify-center col-span-1 md:col-span-2"><Loader size={48} showText={false} /></div>
+          ) : (
+            <div className="text-center py-12 px-6 text-brand-primary bg-white rounded-xl border-2 border-dashed border-brand-primary/10 shadow-sm flex flex-col items-center justify-center">
+              <p className="mb-4">You haven't added any featured work yet.</p>
+              <Button variant="outline" onClick={() => setShowForm(true)}>
+                Add your first featured work
+              </Button>
+            </div>
+          )
         ) : (
           showcaseItems.map((item, idx) => (
             <Card
@@ -361,12 +365,12 @@ export const ShowcaseEditor = () => {
                 <h3 className="font-bold text-brand-primary text-lg mb-1">
                   {item.file_title}
                 </h3>
-                <p className="text-sm text-text-primary/70 line-clamp-2 mb-4">
+                <p className="text-sm text-text-primary line-clamp-2 mb-4">
                   {item.description}
                 </p>
 
                 {item.link_url && (
-                  <div className="flex items-center gap-1 text-xs text-brand-primary/50">
+                  <div className="flex items-center gap-1 text-xs text-brand-primary">
                     <ExternalLink size={12} /> {item.link_url}
                   </div>
                 )}
@@ -423,3 +427,4 @@ export const ShowcaseEditor = () => {
     </DashboardLayout>
   );
 };
+

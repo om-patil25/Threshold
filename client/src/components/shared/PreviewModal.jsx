@@ -50,7 +50,7 @@ export const PreviewModal = ({
                   type="application/pdf"
                   className="w-full h-[60vh]"
                 >
-                  <div className="flex flex-col items-center justify-center h-full p-8 text-center text-text-primary/70">
+                  <div className="flex flex-col items-center justify-center h-full p-8 text-center text-text-primary">
                     <p className="mb-4">PDF Preview not available.</p>
                     <a
                       href={imgUrl}
@@ -78,7 +78,7 @@ export const PreviewModal = ({
 
             <div className="flex items-center justify-between mt-4 pt-4 border-t border-brand-primary/10">
               {date && (
-                <span className="text-sm text-text-primary/50">{date}</span>
+                <span className="text-sm text-text-primary">{date}</span>
               )}
               {linkUrl && (
                 <a
@@ -119,3 +119,4 @@ PreviewModal.propTypes = {
   linkUrl: PropTypes.string,
   filetype: PropTypes.string,
 };
+

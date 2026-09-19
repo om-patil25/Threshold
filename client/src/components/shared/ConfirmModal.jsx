@@ -33,7 +33,7 @@ export const ConfirmModal = ({
               <h3 className="text-lg font-bold text-brand-primary mb-1">
                 {title}
               </h3>
-              <p className="text-sm text-brand-primary/70">{message}</p>
+              <p className="text-sm text-brand-primary">{message}</p>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@ export const ConfirmModal = ({
         <button
           onClick={onCancel}
           disabled={isProcessing}
-          className="absolute top-4 right-4 p-2 text-brand-primary/40 hover:text-brand-primary hover:bg-brand-primary/5 rounded-full transition-colors disabled:opacity-50"
+          className="absolute top-4 right-4 p-2 text-brand-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-full transition-colors disabled:opacity-50"
         >
           <X size={16} />
         </button>
@@ -76,3 +76,4 @@ ConfirmModal.propTypes = {
   isDestructive: PropTypes.bool,
   isProcessing: PropTypes.bool,
 };
+

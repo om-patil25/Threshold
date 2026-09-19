@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { ArrowRight, Sparkles, Code, Layers, EyeOff, LayoutTemplate, Link as LinkIcon, Store, ChevronDown } from "lucide-react";
-import { MarketingBenefits, MarketingDeveloper, MarketingFooter } from "./MarketingPage";
+import { MarketingBenefits, MarketingHelpCTA, MarketingDeveloper, MarketingFooter } from "./MarketingPage";
 import { FadeInSection } from "../shared/FadeInSection";
 import { fetchPublicUser } from "../../service/userServices";
 import { PublicProfileDesktop } from "../publicProfile/PublicProfileDesktop";
 import { PublicProfileMobile } from "../publicProfile/PublicProfileMobile";
 import { Loader } from "../shared/Loader";
+import { MarketingNavbarDesktop } from "./MarketingNavbarDesktop";
 
 const DYNAMIC_WORDS = ["portfolio", "storefront", "link in bio"];
 
@@ -23,24 +24,15 @@ export const MarketingDesktop = ({
   const [fade, setFade] = useState(false);
   const [username, setUsername] = useState("");
   const [profileData, setProfileData] = useState(null);
-  const [profileData1, setProfileData1] = useState(null);
-  const [profileData2, setProfileData2] = useState(null);
-  const [profileData3, setProfileData3] = useState(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
     const getProfile = async () => {
       try {
         const data = await fetchPublicUser("mockpriya");
-        const data1 = await fetchPublicUser("mockananya");
-        const data2 = await fetchPublicUser("mockkabir");
-        const data3 = await fetchPublicUser("mockarjun");
         setProfileData(data);
-        setProfileData1(data1);
-        setProfileData2(data2);
-        setProfileData3(data3);
       } catch (err) {
-        console.error(err);
+        // Silently handle mock data fetch errors to avoid console noise
       } finally {
         setLoadingProfile(false);
       }
@@ -68,39 +60,12 @@ export const MarketingDesktop = ({
   return (
     <div className="min-h-screen bg-bg-primary text-brand-primary flex flex-col font-sans">
       {/* Top bar (Notch) */}
-      <div className="fixed top-0 left-0 w-full z-50 flex justify-center px-4">
-        <header className="flex justify-between items-center px-8 py-4 max-w-5xl w-full bg-white/80 backdrop-blur-md border border-t-0 border-brand-accent/20 rounded-b-2xl shadow-sm">
-          <div className="font-bold text-2xl tracking-tighter text-brand-primary flex items-center gap-2">
-            <img src="/logo.png" alt="Threshold Logo" className="w-8 h-8 object-contain" />
-            Threshold
-          </div>
-          <div className="flex gap-4">
-            {isLoggedIn ? (
-              <button
-                onClick={onAdmin}
-                className="px-6 py-2 font-bold bg-brand-accent text-white rounded-full hover:bg-[#6D28D9] transition-colors"
-              >
-                Admin
-              </button>
-            ) : (
-              <>
-                <button
-                  onClick={onLogin}
-                  className="px-4 py-2 font-bold text-brand-primary hover:bg-black/5 rounded-full transition-colors"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={onSignUp}
-                  className="px-6 py-2 font-bold bg-brand-accent text-white rounded-full hover:bg-[#6D28D9] transition-colors"
-                >
-                  Sign Up
-                </button>
-              </>
-            )}
-          </div>
-        </header>
-      </div>
+      <MarketingNavbarDesktop 
+        isLoggedIn={isLoggedIn}
+        onAdmin={onAdmin}
+        onLogin={onLogin}
+        onSignUp={onSignUp}
+      />
 
       <main className="grow">
         {/* Hero Section */}
@@ -129,14 +94,14 @@ export const MarketingDesktop = ({
                 <span className="absolute bottom-1 left-0 w-full h-2 bg-brand-accent/20 -z-10"></span>
               </span>
             </h1>
-            <p className="text-xl text-brand-primary/70 mb-12 max-w-2xl mx-auto">
+            <p className="text-xl text-brand-primary mb-12 max-w-2xl mx-auto">
               One page that's whatever you need it to be — free, for anyone who
               wants a real presence online.
             </p>
 
             <div className="flex flex-col items-center max-w-md mx-auto">
               <div className="flex bg-white border-2 border-brand-accent rounded-full p-1 w-full shadow-lg relative">
-                <div className="flex items-center pl-6 text-brand-primary/50 font-medium select-none">
+                <div className="flex items-center pl-6 text-brand-primary font-medium select-none">
                   thrshld.in/
                 </div>
                 <input
@@ -149,6 +114,7 @@ export const MarketingDesktop = ({
                 <button
                   className="rounded-full px-8 py-3 bg-brand-accent text-white font-bold hover:bg-[#6D28D9] transition-colors"
                   onClick={() => onStart && onStart(username)}
+                  aria-label="Start creating your threshold profile"
                 >
                   Start
                 </button>
@@ -185,7 +151,7 @@ export const MarketingDesktop = ({
               <h2 className="text-5xl font-bold mb-6 text-brand-accent">
                 Make Your Presence
               </h2>
-              <p className="text-xl text-brand-primary/80 mb-8 leading-relaxed">
+              <p className="text-xl text-brand-primary mb-8 leading-relaxed">
                 Two real, separately-designed layouts — a horizontal desktop
                 experience and a vertical mobile view. Not one responsive
                 template reflowed between breakpoints.
@@ -257,36 +223,20 @@ export const MarketingDesktop = ({
             <FadeInSection className="flex flex-col md:flex-row items-center gap-16">
               <div className="flex-1 flex justify-center">
                 <div className="w-[300px] h-[400px] bg-white rounded-[2rem] border-[8px] border-brand-accent shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
-                  {loadingProfile || !profileData ? (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <Loader size={24} />
-                    </div>
-                  ) : (
-                    <div
-                      className="absolute top-0 left-0 w-[375px] h-[510px] origin-top-left pointer-events-none hide-scrollbar overflow-hidden"
-                      style={{ transform: "scale(0.757)" }}
-                    >
-                      <PublicProfileMobile
-                        user={profileData1.publicUser}
-                        links={profileData1.links || []}
-                        showcaseItems={profileData1.showcase_items || []}
-                        updates={[]}
-                        isPreview={true}
-                      />
-                    </div>
-                  )}
+                  <img src="/src/assets/mockananaya.webp" loading="lazy" alt="Portfolio Preview" className="w-full h-full object-cover object-top" />
                 </div>
               </div>
               <div className="flex-1">
                 <h3 className="text-4xl font-bold mb-6 text-brand-accent">
                   Use as a portfolio.
                 </h3>
-                <p className="text-xl text-brand-primary/80 mb-8 leading-relaxed">
+                <p className="text-xl text-brand-primary mb-8 leading-relaxed">
                   Feature your best projects, certifications, and achievements — the work speaks for itself.
                 </p>
                 <button
                   onClick={onSignUp}
                   className="px-8 py-3 font-bold bg-brand-accent text-white rounded-full hover:bg-[#6D28D9] transition-colors"
+                  aria-label="Get started with a portfolio"
                 >
                   Get Started
                 </button>
@@ -297,36 +247,20 @@ export const MarketingDesktop = ({
             <FadeInSection className="flex flex-col md:flex-row-reverse items-center gap-16">
               <div className="flex-1 flex justify-center">
                 <div className="w-[300px] h-[400px] bg-white rounded-[2rem] border-[8px] border-brand-secondary shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
-                  {loadingProfile || !profileData ? (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <Loader size={24} />
-                    </div>
-                  ) : (
-                    <div
-                      className="absolute top-0 left-0 w-[375px] h-[510px] origin-top-left pointer-events-none hide-scrollbar overflow-hidden"
-                      style={{ transform: "scale(0.757)" }}
-                    >
-                      <PublicProfileMobile
-                        user={profileData2.publicUser}
-                        links={profileData2.links || []}
-                        showcaseItems={[]}
-                        updates={[]}
-                        isPreview={true}
-                      />
-                    </div>
-                  )}
+                  <img src="/src/assets/mockkabir.webp" loading="lazy" alt="Link-in-bio Preview" className="w-full h-full object-cover object-top" />
                 </div>
               </div>
               <div className="flex-1">
                 <h3 className="text-4xl font-bold mb-6 text-brand-secondary">
                   Use as a link-in-bio.
                 </h3>
-                <p className="text-xl text-brand-primary/80 mb-8 leading-relaxed">
+                <p className="text-xl text-brand-primary mb-8 leading-relaxed">
                   Just links, done simply. Send people everywhere that matters, from one clean page.
                 </p>
                 <button
                   onClick={onSignUp}
                   className="px-8 py-3 font-bold bg-brand-secondary text-white rounded-full hover:bg-[#02c880] transition-colors"
+                  aria-label="Get started with a link-in-bio"
                 >
                   Get Started
                 </button>
@@ -337,36 +271,20 @@ export const MarketingDesktop = ({
             <FadeInSection className="flex flex-col md:flex-row items-center gap-16">
               <div className="flex-1 flex justify-center">
                 <div className="w-[300px] h-[400px] bg-white rounded-[2rem] border-[8px] border-brand-primary shadow-xl overflow-hidden flex flex-col relative bg-bg-primary">
-                  {loadingProfile || !profileData ? (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <Loader size={24} />
-                    </div>
-                  ) : (
-                    <div
-                      className="absolute top-0 left-0 w-[375px] h-[510px] origin-top-left pointer-events-none hide-scrollbar overflow-hidden"
-                      style={{ transform: "scale(0.757)" }}
-                    >
-                      <PublicProfileMobile
-                        user={profileData3.publicUser}
-                        links={(profileData3.links || []).slice(0, 2)}
-                        showcaseItems={[...(profileData3.showcase_items || [])].reverse().slice(0, 2)}
-                        updates={[]}
-                        isPreview={true}
-                      />
-                    </div>
-                  )}
+                  <img src="/src/assets/mockarjun.webp" loading="lazy" alt="Storefront Preview" className="w-full h-full object-cover object-top" />
                 </div>
               </div>
               <div className="flex-1">
                 <h3 className="text-4xl font-bold mb-6 text-brand-primary">
                   Use as a storefront.
                 </h3>
-                <p className="text-xl text-brand-primary/80 mb-8 leading-relaxed">
+                <p className="text-xl text-brand-primary mb-8 leading-relaxed">
                   Showcase what you offer and link straight to where people can buy or book — no cart, no checkout hassle, just a clear path to you.
                 </p>
                 <button
                   onClick={onSignUp}
                   className="px-8 py-3 font-bold bg-brand-primary text-white rounded-full hover:bg-black transition-colors"
+                  aria-label="Get started with a storefront"
                 >
                   Get Started
                 </button>
@@ -377,6 +295,8 @@ export const MarketingDesktop = ({
 
         {/* Benefits Section */}
         <MarketingBenefits />
+
+        <MarketingHelpCTA />
 
         {/* Connect with the developer */}
         <MarketingDeveloper />
@@ -394,3 +314,4 @@ MarketingDesktop.propTypes = {
   onLogin: PropTypes.func,
   onSignUp: PropTypes.func,
 };
+

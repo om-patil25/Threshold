@@ -136,7 +136,7 @@ export const AuthForms = () => {
             <h2 className="text-2xl font-bold text-brand-primary mb-2">
               {isLogin ? "Welcome back" : "Create an account"}
             </h2>
-            <p className="text-text-primary/70 text-sm">
+            <p className="text-text-primary text-sm">
               {isLogin
                 ? "Enter your details to access your dashboard"
                 : "Start building your professional presence"}
@@ -191,7 +191,7 @@ export const AuthForms = () => {
                       </span>
                     )}
                   {!errors.username && checkingUsername && (
-                    <span className="text-xs font-semibold text-brand-primary/50 mt-1 pl-1">
+                    <span className="text-xs font-semibold text-brand-primary mt-1 pl-1">
                       Checking...
                     </span>
                   )}
@@ -240,7 +240,7 @@ export const AuthForms = () => {
             </Button>
           </form>
 
-          <div className="text-center text-sm text-text-primary/70 mt-2">
+          <div className="text-center text-sm text-text-primary mt-2">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <button
               onClick={toggleMode}
@@ -254,3 +254,4 @@ export const AuthForms = () => {
     </div>
   );
 };
+

@@ -102,7 +102,7 @@ export const ProfileEditor = () => {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <Upload size={24} className="text-brand-primary/40" />
+              <Upload size={24} className="text-brand-primary" />
             )}
           </div>
           <div className="flex flex-col gap-2">
@@ -120,7 +120,7 @@ export const ProfileEditor = () => {
             >
               Upload Avatar
             </Button>
-            <p className="text-xs text-brand-primary/50">
+            <p className="text-xs text-brand-primary">
               Recommended size: 400x400px (Max 3MB)
             </p>
             {errors.avatarFile && (
@@ -183,3 +183,4 @@ export const ProfileEditor = () => {
     <DashboardLayout previewUser={previewUser}>{EditorContent}</DashboardLayout>
   );
 };
+

@@ -291,10 +291,11 @@ export const Loader = ({ size = 128, showText = size >= 48 }) => {
         </div>
       </div>
       {showText && (
-        <div className="text-brand-primary/70 font-medium text-sm animate-pulse tracking-wide">
+        <div className="text-brand-primary font-medium text-sm animate-pulse tracking-wide">
           {loadingMessage}
         </div>
       )}
     </div>
   );
 };
+

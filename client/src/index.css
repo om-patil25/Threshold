@@ -119,14 +119,14 @@
 [data-theme="minty-fresh"] {
   --color-bg-primary: #ecfdf5;
   --color-text-primary: #064e3b;
-  --color-brand-primary: #059669;
+  --color-brand-primary: #047857;
   --color-brand-accent: #10b981;
 }
 
 [data-theme="cherry-blossom"] {
   --color-bg-primary: #fdf2f8;
   --color-text-primary: #831843;
-  --color-brand-primary: #db2777;
+  --color-brand-primary: #be185d;
   --color-brand-accent: #f472b6;
 }
 

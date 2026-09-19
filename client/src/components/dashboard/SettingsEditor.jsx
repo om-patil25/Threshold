@@ -140,7 +140,7 @@ export const SettingsEditor = () => {
         <h3 className="font-bold text-brand-primary text-xl pb-2">
           Appearance
         </h3>
-        <p className="text-sm text-brand-primary/60 -mt-2">
+        <p className="text-sm text-brand-primary -mt-2">
           Choose a color theme for your public profile.
         </p>
 
@@ -185,3 +185,4 @@ export const SettingsEditor = () => {
     <DashboardLayout previewUser={previewUser}>{EditorContent}</DashboardLayout>
   );
 };
+

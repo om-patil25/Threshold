@@ -58,7 +58,7 @@ export const PublicProfilePage = () => {
           <h1 className="text-3xl font-bold text-brand-primary mb-2 tracking-tight">
             Profile Not Found
           </h1>
-          <p className="text-brand-primary/70 mb-8">
+          <p className="text-brand-primary mb-8">
             The username{" "}
             <span className="font-bold text-brand-primary">@{username}</span> is
             still available. Claim it before someone else does!
@@ -71,7 +71,7 @@ export const PublicProfilePage = () => {
           </Link>
           <Link
             to="/"
-            className="mt-4 text-sm font-medium text-brand-primary/50 hover:text-brand-primary transition-colors"
+            className="mt-4 text-sm font-medium text-brand-primary hover:text-brand-primary transition-colors"
           >
             Return to Home
           </Link>
@@ -126,3 +126,4 @@ export const PublicProfilePage = () => {
     </>
   );
 };
+

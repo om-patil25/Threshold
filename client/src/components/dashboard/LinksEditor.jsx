@@ -7,10 +7,11 @@ import { Edit2, Trash2, Plus } from "lucide-react";
 import { useDashboard } from "../../context/DashboardContext";
 import { createLink, updateLink, deleteLink } from "../../service/linkServices";
 import { toast } from "../../utils/toast";
+import { Loader } from "../shared/Loader";
 import { ConfirmModal } from "../shared/ConfirmModal";
 
 export const LinksEditor = () => {
-  const { links, setLinks, refreshData } = useDashboard();
+  const { links, setLinks, refreshData, loading } = useDashboard();
   const [isEditing, setIsEditing] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
@@ -189,12 +190,16 @@ export const LinksEditor = () => {
 
       <div className="flex flex-col gap-4">
         {links.length === 0 ? (
-          <div className="text-center py-12 px-6 text-brand-primary/60 bg-white rounded-xl border-2 border-dashed border-brand-primary/10 shadow-sm flex flex-col items-center justify-center">
-            <p className="mb-4">You haven't added any links yet.</p>
-            <Button variant="outline" onClick={() => setShowForm(true)}>
-              Create your first link
-            </Button>
-          </div>
+          isSaving || loading ? (
+            <div className="py-12 flex justify-center"><Loader size={48} showText={false} /></div>
+          ) : (
+            <div className="text-center py-12 px-6 text-brand-primary bg-white rounded-xl border-2 border-dashed border-brand-primary/10 shadow-sm flex flex-col items-center justify-center">
+              <p className="mb-4">You haven't added any links yet.</p>
+              <Button variant="outline" onClick={() => setShowForm(true)}>
+                Create your first link
+              </Button>
+            </div>
+          )
         ) : (
           links.map((link, index) => (
             <Card
@@ -214,7 +219,7 @@ export const LinksEditor = () => {
               </div>
 
               <div className="flex items-center gap-2 flex-shrink-0">
-                <div className="text-xs font-mono text-text-primary/50 mr-4 hidden sm:block">
+                <div className="text-xs font-mono text-text-primary mr-4 hidden sm:block">
                   {link.click_count} clicks
                 </div>
                 <button
@@ -252,3 +257,4 @@ export const LinksEditor = () => {
     <DashboardLayout previewLinks={links}>{EditorContent}</DashboardLayout>
   );
 };
+

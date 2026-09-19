@@ -16,7 +16,7 @@ import { ConfirmModal } from "../shared/ConfirmModal";
 import { PreviewModal } from "../shared/PreviewModal";
 
 export const UpdatesEditor = () => {
-  const { updates, refreshData } = useDashboard();
+  const { updates, refreshData, loading } = useDashboard();
   const [showForm, setShowForm] = useState(false);
   const initialFormData = {
     content: "",
@@ -117,7 +117,7 @@ export const UpdatesEditor = () => {
           <h1 className="text-2xl md:text-3xl font-bold text-brand-primary">
             Edit Updates
           </h1>
-          <p className="text-sm text-brand-primary/60 font-medium">
+          <p className="text-sm text-brand-primary font-medium">
             Updates are auto-deleted after 15 days.
           </p>
         </div>
@@ -167,7 +167,7 @@ export const UpdatesEditor = () => {
                 error={errors.content}
               />
               <div>
-                <label className="block text-sm font-medium text-brand-primary/70 mb-1">
+                <label className="block text-sm font-medium text-brand-primary mb-1">
                   Attach Image (Optional, Max 3MB)
                 </label>
                 <input
@@ -178,7 +178,7 @@ export const UpdatesEditor = () => {
                   onChange={handleFileChange}
                 />
                 <div
-                  className="w-full h-32 border-2 border-dashed border-brand-primary/20 rounded-lg flex flex-col items-center justify-center text-brand-primary/50 hover:bg-brand-primary/5 transition-colors cursor-pointer relative overflow-hidden"
+                  className="w-full h-32 border-2 border-dashed border-brand-primary/20 rounded-lg flex flex-col items-center justify-center text-brand-primary hover:bg-brand-primary/5 transition-colors cursor-pointer relative overflow-hidden"
                   onClick={() => fileInputRef.current?.click()}
                 >
                   {editFormData?.img_url ? (
@@ -233,12 +233,16 @@ export const UpdatesEditor = () => {
 
       <div className="flex flex-col gap-4">
         {updates.length === 0 ? (
-          <div className="text-center py-12 px-6 text-brand-primary/60 bg-white rounded-xl border-2 border-dashed border-brand-primary/10 shadow-sm flex flex-col items-center justify-center">
-            <p className="mb-4">You haven't posted any updates yet.</p>
-            <Button variant="outline" onClick={() => setShowForm(true)}>
-              Post your first update
-            </Button>
-          </div>
+          isSaving || loading ? (
+            <div className="py-12 flex justify-center"><Loader size={48} showText={false} /></div>
+          ) : (
+            <div className="text-center py-12 px-6 text-brand-primary bg-white rounded-xl border-2 border-dashed border-brand-primary/10 shadow-sm flex flex-col items-center justify-center">
+              <p className="mb-4">You haven't posted any updates yet.</p>
+              <Button variant="outline" onClick={() => setShowForm(true)}>
+                Post your first update
+              </Button>
+            </div>
+          )
         ) : (
           updates.map((update, idx) => (
             <Card
@@ -254,7 +258,7 @@ export const UpdatesEditor = () => {
               }
             >
               {update.img_url && (
-                <div className="w-20 h-20 bg-brand-primary/10 rounded-lg shrink-0 flex items-center justify-center text-xs text-brand-primary/50 overflow-hidden">
+                <div className="w-20 h-20 bg-brand-primary/10 rounded-lg shrink-0 flex items-center justify-center text-xs text-brand-primary overflow-hidden">
                   <img src={update.img_url} alt="updateimage" />
                 </div>
               )}
@@ -262,7 +266,7 @@ export const UpdatesEditor = () => {
                 <p className="text-text-primary text-sm mb-2 line-clamp-3 text-ellipsis">
                   {update.content}
                 </p>
-                <span className="text-xs text-text-primary/50">
+                <span className="text-xs text-text-primary">
                   {new Date(update.createdAt).toLocaleDateString()}
                 </span>
               </div>
@@ -314,3 +318,4 @@ export const UpdatesEditor = () => {
     <DashboardLayout previewUpdates={updates}>{EditorContent}</DashboardLayout>
   );
 };
+

@@ -116,7 +116,7 @@ export const DashboardLayout = ({
             <span className="font-bold text-sm text-brand-primary truncate">
               {finalUser.name}
             </span>
-            <span className="text-xs text-brand-primary/60 truncate">
+            <span className="text-xs text-brand-primary truncate">
               @
               {finalUser.username ||
                 finalUser.name?.toLowerCase().replace(/\s/g, "") ||
@@ -134,7 +134,7 @@ export const DashboardLayout = ({
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${isActive
                   ? "bg-brand-accent text-white shadow-md"
-                  : "text-brand-primary/70 hover:bg-brand-primary/5 hover:text-brand-primary"
+                  : "text-brand-primary hover:bg-brand-primary/5 hover:text-brand-primary"
                 }`
               }
             >
@@ -149,22 +149,20 @@ export const DashboardLayout = ({
           to="/admin/settings"
           onClick={() => setMobileMenuOpen(false)}
           className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-3 rounded-xl font-medium w-full transition-colors ${isActive ? "bg-brand-primary/5 text-brand-primary" : "text-brand-primary/70 hover:bg-brand-primary/5 hover:text-brand-primary"}`
+            `flex items-center gap-3 px-4 py-3 rounded-xl font-medium w-full transition-colors ${isActive ? "bg-brand-primary/5 text-brand-primary" : "text-brand-primary hover:bg-brand-primary/5 hover:text-brand-primary"}`
           }
         >
           <Settings size={20} />
           Settings
         </NavLink>
-        <NavLink
-          to="/admin/support"
+        <a
+          href="/help"
           onClick={() => setMobileMenuOpen(false)}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-3 rounded-xl font-medium w-full transition-colors ${isActive ? "bg-brand-primary/5 text-brand-primary" : "text-brand-primary/70 hover:bg-brand-primary/5 hover:text-brand-primary"}`
-          }
+          className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium w-full transition-colors text-brand-primary hover:bg-brand-primary/5 hover:text-brand-primary"
         >
           <HelpCircle size={20} />
           Help & Support
-        </NavLink>
+        </a>
         <button
           onClick={() => {
             setMobileMenuOpen(false);
@@ -181,7 +179,7 @@ export const DashboardLayout = ({
 
   const PreviewPanel = () => (
     <div className="w-96 shrink-0 bg-brand-primary/5 h-full border-l border-brand-primary/10 flex flex-col items-center justify-center p-8">
-      <div className="w-[320px] mb-4 bg-white border border-brand-primary/10 rounded-full py-2 pl-4 pr-2 text-center text-sm font-medium text-brand-primary/50 shadow-sm flex items-center justify-between gap-2">
+      <div className="w-[320px] mb-4 bg-white border border-brand-primary/10 rounded-full py-2 pl-4 pr-2 text-center text-sm font-medium text-brand-primary shadow-sm flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <LinkIcon size={14} /> thrshld.in/
           {finalUser?.username || "username"}
@@ -329,3 +327,4 @@ DashboardLayout.propTypes = {
   previewShowcase: PropTypes.array,
   previewUpdates: PropTypes.array,
 };
+

@@ -63,9 +63,10 @@ export const PublicProfileMobile = ({
         {/* Header */}
         <header className="flex flex-col items-center text-center mt-6 relative">
           <button
-            className="absolute top-0 right-0 p-2 text-brand-primary/60 hover:text-brand-primary bg-brand-primary/5 hover:bg-brand-primary/10 rounded-full transition-colors"
+            className="absolute top-0 right-0 p-2 text-brand-primary hover:text-brand-primary bg-brand-primary/5 hover:bg-brand-primary/10 rounded-full transition-colors"
             onClick={() => handleProfileShare(user)}
             title="Share Profile"
+            aria-label="Share profile"
           >
             <Share2 size={20} />
           </button>
@@ -86,9 +87,9 @@ export const PublicProfileMobile = ({
           <h1 className="text-2xl font-bold text-brand-primary m-0 p-0">
             {user.name}
           </h1>
-          <p className="text-md text-text-primary/70 mb-2">{user.worktitle}</p>
+          <p className="text-md text-text-primary mb-2">{user.worktitle}</p>
           {user.bio && (
-            <p className="text-sm text-text-primary/80 max-w-sm px-4 leading-relaxed">
+            <p className="text-sm text-text-primary max-w-sm px-4 leading-relaxed">
               {user.bio}
             </p>
           )}
@@ -101,7 +102,7 @@ export const PublicProfileMobile = ({
           >
             <h2 className="text-xl font-bold text-brand-primary mb-4 m-0 flex justify-between items-center">
               Updates
-              <span className="text-xs font-normal text-text-primary/50">
+              <span className="text-xs font-normal text-text-primary">
                 Swipe left to view
               </span>
             </h2>
@@ -156,7 +157,7 @@ export const PublicProfileMobile = ({
                             <p className="text-sm line-clamp-5 text-ellipsis text-text-primary m-0">
                               {update.content}
                             </p>
-                            <span className="text-xs text-text-primary/50 mt-2 shrink-0">
+                            <span className="text-xs text-text-primary mt-2 shrink-0">
                               {new Date(update.createdAt).toLocaleDateString()}
                             </span>
                           </div>
@@ -291,7 +292,7 @@ export const PublicProfileMobile = ({
                         </a>
                       )}
                     </h3>
-                    <p className="text-text-primary/80 text-sm truncate">
+                    <p className="text-text-primary text-sm truncate">
                       {item.description}
                     </p>
                   </div>
@@ -346,7 +347,7 @@ export const PublicProfileMobile = ({
         <footer
           className={`py-8 text-center mt-4 border-t border-brand-primary/10 w-full ${!isPreview ? "animate-in fade-in duration-700 delay-500" : ""}`}
         >
-          <p className="text-xs text-text-primary/50 font-medium">
+          <p className="text-xs text-text-primary font-medium">
             by Threshold
           </p>
         </footer>
@@ -375,3 +376,4 @@ PublicProfileMobile.propTypes = {
   showcaseItems: PropTypes.array,
   updates: PropTypes.array,
 };
+

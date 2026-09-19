@@ -38,7 +38,7 @@ export const PublicProfileDesktop = ({
       className={`min-h-screen bg-bg-primary text-text-primary font-sans p-8`}
       data-theme={user.theme}
     >
-      <div className="max-w-6xl mx-auto flex flex-col gap-12">
+      <main className="max-w-6xl mx-auto flex flex-col gap-12">
         {/* Header */}
         <header className="flex justify-between items-center py-6 border-b border-brand-primary/10">
           <div className="flex items-center gap-4">
@@ -60,11 +60,11 @@ export const PublicProfileDesktop = ({
               <h1 className="text-3xl font-bold text-brand-primary m-0 p-0 leading-tight">
                 {user.name}
               </h1>
-              <p className="text-lg text-text-primary/70 mb-1">
+              <p className="text-lg text-text-primary mb-1">
                 {user.worktitle}
               </p>
               {user.bio && (
-                <p className="text-sm text-text-primary/80 max-w-md leading-relaxed">
+                <p className="text-sm text-text-primary max-w-md leading-relaxed">
                   {user.bio}
                 </p>
               )}
@@ -75,6 +75,7 @@ export const PublicProfileDesktop = ({
               className="px-4 py-2 text-brand-primary bg-brand-primary/5 hover:bg-brand-primary/10 rounded-full transition-colors flex items-center gap-2 font-bold"
               onClick={() => handleProfileShare(user)}
               title="Share Profile"
+              aria-label="Share profile"
             >
               <Share2 size={18} />
               Share
@@ -137,7 +138,7 @@ export const PublicProfileDesktop = ({
                     <p className="text-sm line-clamp-5 text-ellipsis text-text-primary">
                       {update.content}
                     </p>
-                    <span className="text-xs text-text-primary/50 mt-2">
+                    <span className="text-xs text-text-primary mt-2">
                       {new Date(update.createdAt).toLocaleDateString()}
                     </span>
                   </div>
@@ -237,7 +238,7 @@ export const PublicProfileDesktop = ({
                         </a>
                       )}
                     </h3>
-                    <p className="text-text-primary/80 truncate text-lg">
+                    <p className="text-text-primary truncate text-lg">
                       {item.description}
                     </p>
                   </div>
@@ -280,11 +281,11 @@ export const PublicProfileDesktop = ({
 
         {/* Footer */}
         <footer className="py-12 text-center border-t border-brand-primary/10 mt-8 animate-in fade-in duration-700 delay-500">
-          <p className="text-sm text-text-primary/50 font-medium">
+          <p className="text-sm text-text-primary font-medium">
             by Threshold
           </p>
         </footer>
-      </div>
+      </main>
 
       <PreviewModal
         isOpen={!!previewItem}
@@ -301,3 +302,4 @@ PublicProfileDesktop.propTypes = {
   showcaseItems: PropTypes.array,
   updates: PropTypes.array,
 };
+

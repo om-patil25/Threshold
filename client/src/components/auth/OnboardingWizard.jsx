@@ -269,17 +269,17 @@ export const OnboardingWizard = () => {
           ></div>
 
           <div
-            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 relative z-10 ${step >= 1 ? "bg-brand-accent text-white shadow-lg shadow-brand-accent/30 scale-110" : "bg-bg-primary border-2 border-brand-primary/20 text-brand-primary/40"}`}
+            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 relative z-10 ${step >= 1 ? "bg-brand-accent text-white shadow-lg shadow-brand-accent/30 scale-110" : "bg-bg-primary border-2 border-brand-primary/20 text-brand-primary"}`}
           >
             <User size={20} />
           </div>
           <div
-            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 relative z-10 ${step >= 2 ? "bg-brand-accent text-white shadow-lg shadow-brand-accent/30 scale-110" : "bg-bg-primary border-2 border-brand-primary/20 text-brand-primary/40"}`}
+            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 relative z-10 ${step >= 2 ? "bg-brand-accent text-white shadow-lg shadow-brand-accent/30 scale-110" : "bg-bg-primary border-2 border-brand-primary/20 text-brand-primary"}`}
           >
             <Palette size={20} />
           </div>
           <div
-            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 relative z-10 ${step >= 3 ? "bg-brand-accent text-white shadow-lg shadow-brand-accent/30 scale-110" : "bg-bg-primary border-2 border-brand-primary/20 text-brand-primary/40"}`}
+            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 relative z-10 ${step >= 3 ? "bg-brand-accent text-white shadow-lg shadow-brand-accent/30 scale-110" : "bg-bg-primary border-2 border-brand-primary/20 text-brand-primary"}`}
           >
             <CheckCircle size={20} />
           </div>
@@ -297,7 +297,7 @@ export const OnboardingWizard = () => {
               <h2 className="text-3xl font-bold text-brand-primary mb-2 text-center">
                 Welcome, @{username}!
               </h2>
-              <p className="text-center text-text-primary/70 mb-8">
+              <p className="text-center text-text-primary mb-8">
                 Let's set up the basics for your new profile.
               </p>
 
@@ -311,7 +311,7 @@ export const OnboardingWizard = () => {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <Upload size={24} className="text-brand-primary/40" />
+                      <Upload size={24} className="text-brand-primary" />
                     )}
                     <label className="absolute inset-0 bg-black/40 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
                       <Upload size={20} />
@@ -327,7 +327,7 @@ export const OnboardingWizard = () => {
                     <span className="text-sm font-bold text-brand-primary">
                       Profile Photo (Max 3MB)
                     </span>
-                    <span className="text-xs text-brand-primary/60">
+                    <span className="text-xs text-brand-primary">
                       Upload your best picture
                     </span>
                     {errors.avatar && (
@@ -381,7 +381,7 @@ export const OnboardingWizard = () => {
               <h2 className="text-3xl font-bold text-brand-primary mb-2 text-center">
                 Choose a Theme
               </h2>
-              <p className="text-center text-text-primary/70 mb-2">
+              <p className="text-center text-text-primary mb-2">
                 Select a style that matches your vibe.
               </p>
               <p className="text-center text-brand-accent text-sm font-bold mb-8">
@@ -419,20 +419,20 @@ export const OnboardingWizard = () => {
               <h2 className="text-3xl font-bold text-brand-primary mb-2 text-center">
                 Add Your First Piece of Content
               </h2>
-              <p className="text-center text-text-primary/70 mb-8">
+              <p className="text-center text-text-primary mb-8">
                 Let's give your visitors something to see.
               </p>
 
               <div className="flex gap-2 p-1 bg-brand-primary/5 rounded-xl max-w-sm mx-auto w-full mb-6">
                 <button
                   onClick={() => setContentType("link")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm font-bold transition-all ${contentType === "link" ? "bg-white shadow-sm text-brand-primary" : "text-brand-primary/60 hover:text-brand-primary"}`}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm font-bold transition-all ${contentType === "link" ? "bg-white shadow-sm text-brand-primary" : "text-brand-primary hover:text-brand-primary"}`}
                 >
                   <LinkIcon size={16} /> Link
                 </button>
                 <button
                   onClick={() => setContentType("showcase")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm font-bold transition-all ${contentType === "showcase" ? "bg-white shadow-sm text-brand-primary" : "text-brand-primary/60 hover:text-brand-primary"}`}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm font-bold transition-all ${contentType === "showcase" ? "bg-white shadow-sm text-brand-primary" : "text-brand-primary hover:text-brand-primary"}`}
                 >
                   <ImageIcon size={16} /> Featured Work
                 </button>
@@ -536,7 +536,7 @@ export const OnboardingWizard = () => {
             {step === 1 && (
               <Button
                 variant="ghost"
-                className="text-brand-primary/50 hover:text-brand-primary"
+                className="text-brand-primary hover:text-brand-primary"
                 onClick={skipAndFinish}
                 disabled={saving}
               >
@@ -555,7 +555,7 @@ export const OnboardingWizard = () => {
             {step === 3 && (
               <Button
                 variant="ghost"
-                className="text-brand-primary/50 hover:text-brand-primary"
+                className="text-brand-primary hover:text-brand-primary"
                 onClick={skipAndFinish}
                 disabled={saving}
               >
@@ -599,3 +599,4 @@ export const OnboardingWizard = () => {
     </div>
   );
 };
+

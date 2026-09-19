@@ -1,0 +1,158 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card } from "../shared/Card";
+import { ChevronDown, ChevronUp, LifeBuoy } from "lucide-react";
+import { MarketingFooter } from "./MarketingPage";
+import { MarketingNavbarDesktop } from "./MarketingNavbarDesktop";
+import { MarketingNavbarMobile } from "./MarketingNavbarMobile";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { getAdminUser } from "../../service/userServices";
+
+const FAQItem = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border-b border-brand-primary/10 last:border-0">
+      <button
+        className="w-full flex items-center justify-between py-4 text-left font-bold text-brand-primary hover:text-brand-accent transition-colors"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span>{question}</span>
+        {isOpen ? (
+          <ChevronUp size={18} className="text-brand-primary shrink-0 ml-4" />
+        ) : (
+          <ChevronDown size={18} className="text-brand-primary shrink-0 ml-4" />
+        )}
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-48 opacity-100 mb-4" : "max-h-0 opacity-0"
+          }`}
+      >
+        <p className="text-text-primary text-sm">{answer}</p>
+      </div>
+    </div>
+  );
+};
+
+export const HelpPage = () => {
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await getAdminUser();
+        if (res && res.user) {
+          setIsLoggedIn(true);
+        }
+      } catch (err) {
+        // Not logged in
+      }
+    };
+    checkAuth();
+  }, []);
+
+  const handleAdmin = () => navigate("/admin/profile");
+  const handleLogin = () => navigate("/auth");
+  const handleSignUp = () => navigate("/onboarding");
+
+  return (
+    <div className="min-h-screen bg-bg-primary text-text-primary flex flex-col font-sans">
+      {isMobile ? (
+        <MarketingNavbarMobile
+          isLoggedIn={isLoggedIn}
+          onAdmin={handleAdmin}
+          onLogin={handleLogin}
+          onSignUp={handleSignUp}
+        />
+      ) : (
+        <MarketingNavbarDesktop
+          isLoggedIn={isLoggedIn}
+          onAdmin={handleAdmin}
+          onLogin={handleLogin}
+          onSignUp={handleSignUp}
+        />
+      )}
+
+      {/* Main Content */}
+      <main className="flex-1 p-6 pt-23 md:p-10 md:pt-26 max-w-5xl mx-auto flex flex-col gap-8 w-full">
+        <div className="flex items-center gap-3 border-b border-brand-primary/10 pb-6">
+          <div className="w-12 h-12 bg-brand-accent/10 rounded-xl flex items-center justify-center text-brand-accent shrink-0">
+            <LifeBuoy size={24} />
+          </div>
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-brand-primary">
+              Help & Support
+            </h1>
+            <p className="text-text-primary text-sm">
+              Learn how to make the most of your profile.
+            </p>
+          </div>
+        </div>
+
+        {/* Video Section */}
+        <Card className="p-6 overflow-hidden">
+          <h2 className="text-xl font-bold text-brand-primary mb-4">
+            Getting Started
+          </h2>
+          <div className="aspect-video w-full bg-brand-primary/5 rounded-lg border border-brand-primary/10 overflow-hidden relative">
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube-nocookie.com/embed/-_3Gox2k7NM?controls=1"
+              title="Threshold — Quick Walkthrough"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="absolute inset-0"
+            ></iframe>
+          </div>
+        </Card>
+
+        {/* FAQs */}
+        <Card className="p-6">
+          <h2 className="text-xl font-bold text-brand-primary mb-2">
+            Frequently Asked Questions
+          </h2>
+          <div className="flex flex-col">
+            <FAQItem
+              question="How do I change my theme colors?"
+              answer='Head over to Settings from your Dashboard sidebar, under "Appearance," and pick any of our handcrafted color themes. Changes apply instantly and are visible on your public profile right away.'
+            />
+            <FAQItem
+              question="What's the difference between Links and Featured?"
+              answer="Links are simple buttons that send visitors to external sites — your Instagram, GitHub, booking page, anything. Featured is for showcasing your actual projects, certifications, achievements, or documents, with a preview image and description — built to stand out more than a plain link."
+            />
+            <FAQItem
+              question="How long do Updates stay on my profile?"
+              answer="Updates automatically disappear after 15 days — think of it as a rolling feed of what's current, not a permanent post. If you want something to stay up long-term, add it as Featured instead."
+            />
+            <FAQItem
+              question="Is Threshold free?"
+              answer="Yes, Threshold is completely free to use."
+            />
+            <FAQItem
+              question="What happens if I don't fill in a section — like Links or Featured?"
+              answer="Nothing shows up for that section on your public profile. Threshold only displays sections you've actually used, so your page stays clean whether you're using it as a portfolio, a link hub, or both."
+            />
+          </div>
+        </Card>
+
+        <div className="text-center mt-4">
+          <p className="text-sm text-text-primary">
+            Still need help? Reach out to us at{" "}
+            <a
+              href="mailto:support@thrshld.in"
+              className="text-brand-accent font-bold hover:underline"
+            >
+              support@thrshld.in
+            </a>
+          </p>
+        </div>
+      </main>
+
+      <MarketingFooter />
+    </div>
+  );
+};
