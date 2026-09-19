@@ -8,15 +8,15 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
-    },
+    }
+  ],
+  "routes": [
     {
-      "source": "/(.*\\.(webp|png|jpg|jpeg|svg|ico))",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
+      "src": "/.*\\.(webp|png|jpg|jpeg|svg|ico)$",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
     }
   ],
   "rewrites": [
