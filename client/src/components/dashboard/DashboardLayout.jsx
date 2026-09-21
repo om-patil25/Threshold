@@ -155,14 +155,14 @@ export const DashboardLayout = ({
           <Settings size={20} />
           Settings
         </NavLink>
-        <a
-          href="/help"
+        <NavLink
+          to="/help"
           onClick={() => setMobileMenuOpen(false)}
           className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium w-full transition-colors text-brand-primary hover:bg-brand-primary/5 hover:text-brand-primary"
         >
           <HelpCircle size={20} />
           Help & Support
-        </a>
+        </NavLink>
         <button
           onClick={() => {
             setMobileMenuOpen(false);

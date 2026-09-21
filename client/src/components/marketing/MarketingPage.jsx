@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Code, Layers, EyeOff } from "lucide-react";
 import { FadeInSection } from "../shared/FadeInSection";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
@@ -145,12 +145,12 @@ export const MarketingHelpCTA = () => (
       Getting started takes about two minutes. Still have questions? Check our
       FAQ or reach out to support.
     </p>
-    <a
-      href="/help"
+    <Link
+      to="/help"
       className="px-6 py-2 mt-2 font-bold bg-brand-primary/5 text-brand-primary rounded-full hover:bg-brand-primary/10 transition-colors"
     >
       Visit our Help Center
-    </a>
+    </Link>
   </FadeInSection>
 );
 
